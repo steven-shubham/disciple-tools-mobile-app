@@ -81,6 +81,7 @@ import footprint from '../../assets/icons/footprint.png';
 import dtIcon from '../../assets/images/dt-icon.png';
 
 import i18n from '../../languages';
+import withI18N from '../../hoc/withI18N';
 
 let toastSuccess;
 let toastError;
@@ -1357,7 +1358,7 @@ class GroupDetailScreen extends React.Component {
                                   ? { textAlign: 'left', flex: 1 }
                                   : { textAlign: 'right' },
                               ]}>
-                              {sharedTools.formatDateToView(item.date)}
+                              {sharedTools.formatDateToView(item.date, this.props.locale)}
                             </Text>
                           </Col>
                         </Row>
@@ -1684,7 +1685,7 @@ class GroupDetailScreen extends React.Component {
     let baptismDateRegex = /\{(\d+)\}+/;
     if (baptismDateRegex.test(comment)) {
       comment = comment.replace(baptismDateRegex, (match, timestamp) =>
-        sharedTools.formatDateToView(timestamp * 1000),
+        sharedTools.formatDateToView(timestamp * 1000, this.props.locale),
       );
     }
     return comment;
@@ -3446,6 +3447,7 @@ class GroupDetailScreen extends React.Component {
             <Text>
               {sharedTools.formatDateToView(
                 sharedTools.isNumeric(value) ? parseInt(value) * 1000 : value,
+                this.props.locale,
               )}
             </Text>
           );
@@ -4961,4 +4963,4 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(GroupDetailScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(withI18N(GroupDetailScreen));

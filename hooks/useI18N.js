@@ -1,22 +1,14 @@
 import { I18nManager } from 'react-native';
 import * as Localization from 'expo-localization';
 import i18n from 'i18n-js';
-// TODO:
-//import moment from 'moment';
-//require('moment/locale/ar');
-//require('moment/locale/bn');
-//require('moment/locale/es');
-//...
-import moment from 'languages/moment';
-// TODO: use instead of moment
-//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat
 
 import { useDispatch, useSelector } from 'react-redux';
-import { Picker } from 'native-base';
 //import setLocale from 'store/actions/i18n.actions';
 
-import i18n from 'languages';
-import locales from 'languages/locales';
+//import i18n from '../languages';
+import locales from '../languages/locales';
+
+import { Picker } from 'native-base';
 
 const useI18N = () => {
   //const dispatch = useDispatch();
@@ -57,15 +49,11 @@ const useI18N = () => {
     /*
     const localeObj = this.getLocaleObj(languageCode);
     const locale = localeObj.code;
-    const isRTL = localeObj.rtl;
-    this.locale = locale;
+    //const isRTL = localeObj.rtl;
+    i18n.locale = locale;
     // Enable/Disable RTL
     I18nManager.allowRTL(isRTL);
     I18nManager.forceRTL(isRTL);
-    // Update momentJS locale
-    let momentLocale =
-      locale.substring(0, 2) === 'zh' ? locale.toLowerCase() : locale.substring(0, 2);
-    moment.locale(momentLocale);
     */
     //dispatch(setLocale(locale));
     console.log(`*** setLocale(${locale}) ***`);
@@ -73,10 +61,8 @@ const useI18N = () => {
   };
 
   // we overwrite 'locale' because we want to ensure that existing or device locale is currently supported
-  const { code: locale, rtl: isRTL } = getLocaleObj(locale);
-
-  // set momentjs object (for locale-specific date formats)
-  moment.locale(locale);
+  const { code, rtl: isRTL } = getLocaleObj(locale);
+  locale = code;
 
   // set i18n-js locale (for translation - ie, i18n.t('hello'))
   i18n.locale = locale;
@@ -101,8 +87,6 @@ const useI18N = () => {
     i18n,
     isRTL,
     locale,
-    // TODO: replace moment with Intl
-    moment,
     setLocale,
     LanguagePickerItems,
   };

@@ -68,7 +68,9 @@ import baptizingIcon from '../../assets/icons/water-aerobics.png';
 import inChurchIcon from '../../assets/icons/group.png';
 import dtIcon from '../../assets/images/dt-icon.png';
 import startingChurchesIcon from '../../assets/icons/group-starting.png';
+
 import i18n from '../../languages';
+import withI18N from '../../hoc/withI18N';
 
 let toastSuccess;
 let toastError;
@@ -1571,7 +1573,7 @@ class ContactDetailScreen extends React.Component {
     let baptismDateRegex = /\{(\d+)\}+/;
     if (baptismDateRegex.test(comment)) {
       comment = comment.replace(baptismDateRegex, (match, timestamp) =>
-        sharedTools.formatDateToView(timestamp * 1000),
+        sharedTools.formatDateToView(timestamp * 1000, this.props.locale),
       );
     }
     return comment;
@@ -2213,7 +2215,7 @@ class ContactDetailScreen extends React.Component {
                                   ? { textAlign: 'left', flex: 1 }
                                   : { textAlign: 'right' },
                               ]}>
-                              {sharedTools.formatDateToView(item.date)}
+                              {sharedTools.formatDateToView(item.date, this.props.locale)}
                             </Text>
                           </Col>
                         </Row>
@@ -3317,6 +3319,7 @@ class ContactDetailScreen extends React.Component {
             <Text>
               {sharedTools.formatDateToView(
                 sharedTools.isNumeric(value) ? parseInt(value) * 1000 : value,
+                this.props.locale,
               )}
             </Text>
           );
@@ -4962,4 +4965,4 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ContactDetailScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(withI18N(ContactDetailScreen));

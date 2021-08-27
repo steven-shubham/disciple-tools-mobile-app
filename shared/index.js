@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import moment from '../languages/moment';
 
 const diff = (obj1, obj2) => {
   // Make sure an object to compare is provided
@@ -163,8 +162,13 @@ const formatDateToBackEnd = (dateString) => {
   return newDate;
 };
 
-const formatDateToView = (date) => {
-  return moment(new Date(date)).utc().format('LL');
+const formatDateToView = (date, locale) => {
+  const options = {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  };
+  return new Intl.DateTimeFormat(locale, options).format(new Date(date));
 };
 
 const formatDateToDatePicker = (timestamp = null) => {
