@@ -39,7 +39,7 @@
     "activity": "กิจกรรม",
     "submit": "ส่ง",
     "share": "แบ่งปัน",
-    "viewOnMobileWeb": "ดูบนเว็บบนมือถือ",
+    "viewOnMobileWeb": "ดูบนเว็บมือถือ",
     "shareSettings": "shareSettings",
     "searchUsers": "searchUsers",
     "noFilters": "noFilters",
@@ -124,7 +124,7 @@
     },
     "noContactCommentPlacheHolder1": "อาจมีข้อผิดพลาดเอาจากไซต์ของคุณ ลากลงเพื่อโหลดใหม่เเละลองอีกครั้ง",
     "noContactCommentPlacheHolderOffline": "ขณะนี้คุณออฟไลน์ ตรวจสอบให้แน่ใจว่าคุณเชื่อมต่อกับ wifi หรือข้อมูลมือถือเพื่อรีเฟรชและรับความคิดเห็นติดต่อของคุณ",
-    "importContact": "นำเข้ารายชื่อโทรศัพท์",
+    "importContact": "นำเข้ารายชื่อติดต่อทางโทรศัพท์",
     "contactSharedWith": "contactSharedWith",
     "ageNotSet": "ageNotSet"
   },
@@ -181,5 +181,6 @@
     "button": "ตกลง",
     "textDirection": "ทิศทางข้อความ",
     "selectedLanguage": "ภาษาที่เลือก"
-  }
+  },
+  "endonym": "ภาษาไทย"
 }

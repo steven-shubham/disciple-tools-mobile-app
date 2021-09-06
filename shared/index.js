@@ -168,7 +168,8 @@ const formatDateToView = (date, locale) => {
     day: 'numeric',
     year: 'numeric',
   };
-  return new Intl.DateTimeFormat(locale, options).format(new Date(date));
+  const locale_p = locale?.replace('_', '-');
+  return new Intl.DateTimeFormat(locale_p, options).format(new Date(date));
 };
 
 const formatDateToDatePicker = (timestamp = null) => {

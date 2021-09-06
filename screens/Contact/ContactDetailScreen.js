@@ -70,7 +70,6 @@ import dtIcon from '../../assets/images/dt-icon.png';
 import startingChurchesIcon from '../../assets/icons/group-starting.png';
 
 import i18n from '../../languages';
-import withI18N from '../../hoc/withI18N';
 
 let toastSuccess;
 let toastError;
@@ -4965,4 +4964,4 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withI18N(ContactDetailScreen));
+export default connect(mapStateToProps, mapDispatchToProps)(ContactDetailScreen);

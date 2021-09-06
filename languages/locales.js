@@ -1,6 +1,6 @@
 export default [
   {
-    code: 'en-US',
+    code: 'en_US',
     name: 'English',
     rtl: false,
   },
@@ -10,68 +10,53 @@ export default [
     rtl: true,
   },
   {
-    code: 'bn-BD',
+    code: 'bn_BD',
     name: 'বাংলা',
     rtl: false,
   },
   {
-    code: 'es-ES',
-    name: 'Español',
+    code: 'bs_BA',
+    name: 'Bosanski',
     rtl: false,
   },
   {
-    code: 'de-DE',
+    code: 'cs',
+    name: 'čeština',
+    rtl: false,
+  },
+  {
+    code: 'de_DE',
     name: 'Deutsch',
     rtl: false,
   },
   {
-    code: 'fa-IR',
+    code: 'es_ES',
+    name: 'Español',
+    rtl: false,
+  },
+  {
+    code: 'fa_IR',
     name: 'فارسی',
     rtl: true,
   },
   {
-    code: 'fr-FR',
+    code: 'fr_FR',
     name: 'Français',
     rtl: false,
   },
   {
-    code: 'hi',
+    code: 'gu',
+    name: 'ગુજરાત',
+    rtl: false,
+  },
+  {
+    code: 'ha',
+    name: 'halshen Hausa',
+    rtl: false,
+  },
+  {
+    code: 'hi_IN',
     name: 'हिन्दी',
-    rtl: false,
-  },
-  {
-    code: 'id-ID',
-    name: 'Bahasa Indonesia',
-    rtl: false,
-  },
-  {
-    code: 'my-MM',
-    name: 'မြန်မာစာ',
-    rtl: false,
-  },
-  {
-    code: 'ja',
-    name: '日本語',
-    rtl: false,
-  },
-  {
-    code: 'nl-NL',
-    name: 'Nederlands',
-    rtl: false,
-  },
-  {
-    code: 'pt-BR',
-    name: 'Português do Brasil',
-    rtl: false,
-  },
-  {
-    code: 'mk',
-    name: 'македонски',
-    rtl: false,
-  },
-  {
-    code: 'bs-BA',
-    name: 'Bosanski',
     rtl: false,
   },
   {
@@ -80,28 +65,98 @@ export default [
     rtl: false,
   },
   {
-    code: 'ro-RO',
+    code: 'id_ID',
+    name: 'bahasa Indonesia',
+    rtl: false,
+  },
+  {
+    code: 'it_IT',
+    name: 'Italiano',
+    rtl: false,
+  },
+  {
+    code: 'ja',
+    name: '日本語',
+    rtl: false,
+  },
+  {
+    code: 'kn',
+    name: 'ಕನ್ನಡ',
+    rtl: false,
+  },
+  {
+    code: 'mk_MK',
+    name: 'македонски',
+    rtl: false,
+  },
+  {
+    code: 'mr',
+    name: 'मराठ',
+    rtl: false,
+  },
+  {
+    code: 'my_MM',
+    name: 'မြန်မာစာ',
+    rtl: false,
+  },
+  {
+    code: 'ne_NP',
+    name: 'नेपाली',
+    rtl: false,
+  },
+  {
+    code: 'nl_NL',
+    name: 'Nederlands',
+    rtl: false,
+  },
+  {
+    code: 'pa_IN',
+    name: 'ਪੰਜਾਬੀ',
+    rtl: false,
+  },
+  {
+    code: 'pt_BR',
+    name: 'Português do Brasil',
+    rtl: false,
+  },
+  {
+    code: 'ro_RO',
     name: 'Română',
     rtl: false,
   },
   {
-    code: 'sl-SI',
+    code: 'ru_RU',
+    name: 'Pусский',
+    rtl: false,
+  },
+  {
+    code: 'sl_SI',
     name: 'Slovenščina',
     rtl: false,
   },
   {
-    code: 'sr-BA',
-    name: 'Cрпски',
+    code: 'so',
+    name: 'Af-Soomaali',
     rtl: false,
   },
   {
-    code: 'ru-RU',
-    name: 'Pусский',
+    code: 'sr_BA',
+    name: 'Cрпски',
     rtl: false,
   },
   {
     code: 'sw',
     name: 'Kiswahili',
+    rtl: false,
+  },
+  {
+    code: 'ta',
+    name: 'தமிழ்',
+    rtl: false,
+  },
+  {
+    code: 'te',
+    name: 'తెలుగు',
     rtl: false,
   },
   {
@@ -115,22 +170,27 @@ export default [
     rtl: false,
   },
   {
-    code: 'tr-TR',
+    code: 'tr_TR',
     name: 'Türkçe',
     rtl: false,
   },
   {
+    code: 'ur',
+    name: 'اُردُو',
+    rtl: true,
+  },
+  {
     code: 'vi',
-    name: 'Tiếng Việt',
+    name: 'tiếng Việt',
     rtl: false,
   },
   {
-    code: 'zh-CN',
+    code: 'zh_CN',
     name: '汉语',
     rtl: false,
   },
   {
-    code: 'zh-TW',
+    code: 'zh_TW',
     name: '漢語',
     rtl: false,
   },

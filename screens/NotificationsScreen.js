@@ -15,7 +15,7 @@ import {
 } from '../store/actions/notifications.actions';
 import Colors from '../constants/Colors';
 
-import withI18N from '../hoc/withI18N';
+import i18n from '../languages';
 
 const entities = new Html5Entities();
 
@@ -209,10 +209,11 @@ class NotificationsScreen extends React.Component {
     const dateNew = Date.parse(new Date());
     const dateDiff = dateNew - dateNotified_p;
     const daysAgo = Math.floor(dateDiff / (1000 * 3600 * 24)) * -1; // Math.round
-    const relativeDaysAgo = new Intl.RelativeTimeFormat(this.props.locale, {
+    const locale = this.props.locale?.replace('_', '-');
+    const relativeDaysAgo = new Intl.RelativeTimeFormat(locale, {
       style: 'narrow',
     }).format(daysAgo, 'days');
-    const localizedDate = new Intl.DateTimeFormat(this.props.locale).format(dateNotified_p);
+    const localizedDate = new Intl.DateTimeFormat(locale).format(dateNotified_p);
 
     return (
       <View
@@ -269,7 +270,7 @@ class NotificationsScreen extends React.Component {
 
   offlineBarRender = () => (
     <View style={[styles.offlineBar]}>
-      <Text style={[styles.offlineBarText]}>{this.props.i18n.t('global.offline')}</Text>
+      <Text style={[styles.offlineBarText]}>{i18n.t('global.offline')}</Text>
     </View>
   );
 
@@ -277,12 +278,12 @@ class NotificationsScreen extends React.Component {
     <View style={[styles.dontHaveNotificationsText]}>
       {this.state.isAll && (
         <Text style={[styles.dontHaveNotificationsText]}>
-          {this.props.i18n.t('notificationsScreen.dontHaveNotifications')}
+          {i18n.t('notificationsScreen.dontHaveNotifications')}
         </Text>
       )}
       {!this.state.isAll && (
         <Text style={[styles.dontHaveNotificationsText]}>
-          {this.props.i18n.t('notificationsScreen.dontHaveNotificationsUnread')}
+          {i18n.t('notificationsScreen.dontHaveNotificationsUnread')}
         </Text>
       )}
     </View>
@@ -296,18 +297,14 @@ class NotificationsScreen extends React.Component {
           onPress={() => {
             this.onRefresh(true);
           }}>
-          <Text style={styles.loadMoreFooterText}>
-            {this.props.i18n.t('notificationsScreen.loadMore')}
-          </Text>
+          <Text style={styles.loadMoreFooterText}>{i18n.t('notificationsScreen.loadMore')}</Text>
         </TouchableOpacity>
       </View>
     );
   };
 
-  /*
   static navigationOptions = {
-    //title: this.props.i18n.t('notificationsScreen.notifications'),
-    title: 'notificationsScreen.notifications',
+    title: i18n.t('notificationsScreen.notifications'),
     headerStyle: {
       backgroundColor: Colors.tintColor,
     },
@@ -316,20 +313,19 @@ class NotificationsScreen extends React.Component {
       fontWeight: 'bold',
     },
   };
-  */
 
   render() {
     return (
       <Container>
         <View style={{ flex: 1 }}>
-          {!this.props.isConnected && this.offlineBarRender(this.props.i18n)}
+          {!this.props.isConnected && this.offlineBarRender(i18n)}
           <Row style={{ height: 60, margin: 15 }}>
             <Col size={2}>
               <View style={{ flex: 1, flexDirection: 'row' }}>
                 {this.state.notificationsCount > 0 && (
                   <Text style={styles.newHeaderNumber}> {this.state.notificationsCount} </Text>
                 )}
-                <Text style={styles.newHeader}>{this.props.i18n.t('notificationsScreen.new')}</Text>
+                <Text style={styles.newHeader}>{i18n.t('notificationsScreen.new')}</Text>
               </View>
             </Col>
             <Col size={3}>
@@ -341,7 +337,7 @@ class NotificationsScreen extends React.Component {
                   ]}>
                   <Text
                     style={this.state.isAll ? styles.marketButtonText : styles.unmarketButtonText}>
-                    {this.props.i18n.t('notificationsScreen.all')}
+                    {i18n.t('notificationsScreen.all')}
                   </Text>
                 </View>
               </TouchableOpacity>
@@ -355,7 +351,7 @@ class NotificationsScreen extends React.Component {
                   ]}>
                   <Text
                     style={this.state.isAll ? styles.unmarketButtonText : styles.marketButtonText}>
-                    {this.props.i18n.t('notificationsScreen.unRead')}
+                    {i18n.t('notificationsScreen.unRead')}
                   </Text>
                 </View>
               </TouchableOpacity>
@@ -364,13 +360,13 @@ class NotificationsScreen extends React.Component {
               <TouchableOpacity onPress={this.markAll}>
                 <View>
                   <Text style={[styles.markAllHeader, { marginRight: 1 }]}>
-                    {this.props.i18n.t('notificationsScreen.markAll')}
+                    {i18n.t('notificationsScreen.markAll')}
                   </Text>
                 </View>
               </TouchableOpacity>
             </Col>
           </Row>
-          {!this.state.haveNotifications && this.dontHaveNotifications(this.props.i18n)}
+          {!this.state.haveNotifications && this.dontHaveNotifications(i18n)}
           <FlatList
             data={this.state.notificationsSourceData}
             extraData={this.state.loading}
@@ -379,7 +375,7 @@ class NotificationsScreen extends React.Component {
             refreshControl={
               <RefreshControl refreshing={this.props.loading} onRefresh={this.onRefresh} />
             }
-            ListFooterComponent={this.renderFooter(this.props.i18n)}
+            ListFooterComponent={this.renderFooter(i18n)}
             style={{ backgroundColor: Colors.mainBackgroundColor }}
           />
         </View>
@@ -454,4 +450,4 @@ NotificationsScreen.defaultProps = {
   isConnected: null,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withI18N(NotificationsScreen));
+export default connect(mapStateToProps, mapDispatchToProps)(NotificationsScreen);

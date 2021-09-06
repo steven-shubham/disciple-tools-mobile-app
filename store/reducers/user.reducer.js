@@ -63,7 +63,8 @@ export default function userReducer(state = initialState, action) {
           password: action.user.password,
           displayName: action.user.user_display_name,
           email: action.user.user_email,
-          locale: null,
+          //locale: null,
+          locale: action.user.locale,
           id: null,
         },
       };

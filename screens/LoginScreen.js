@@ -97,17 +97,10 @@ class LoginScreen extends React.Component {
       hidePassword: true,
     };
 
-    // Set locale in APP
-    if (props.i18n.locale) {
-      // Set locale per Redux State
-      const locale = props.i18n.locale;
-      i18n.setLocale(locale);
-    } else {
-      // Set locale (and Redux State) per Device Settings
-      const locale = Localization.locale;
-      const localeObj = i18n.setLocale(locale);
-      this.props.setLanguage(localeObj.code, localeObj.rtl);
-    }
+    // Set Locale
+    const locale = props?.i18n?.locale ? props.i18n.locale : Localization?.locale;
+    const localeObj = i18n.setLocale(locale);
+    this.props.setLanguage(localeObj.code, localeObj.rtl);
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -356,8 +349,9 @@ class LoginScreen extends React.Component {
     }
 
     // User locale retrieved
-    if (userData && userData.locale && prevProps.userData.locale !== userData.locale) {
-      this.changeLanguage(userData.locale.replace('_', '-'), true);
+    //if (userData && userData.locale && prevProps.userData.locale !== userData.locale) {
+    if (userData && userData.locale && !appLanguageSet) {
+      this.changeLanguage(userData.locale, true);
     }
 
     // peopleGroupsList retrieved
@@ -530,7 +524,7 @@ class LoginScreen extends React.Component {
 
   changeLanguage(locale, logIn = false) {
     const localeObj = i18n.setLocale(locale);
-    this.props.setLanguage(localeObj.code, localeObj.rtl);
+    this.props.setLanguage(localeObj?.code, localeObj?.rtl);
     if (localeObj.rtl !== this.props.i18n.isRTL) {
       this.showRestartDialog();
     } else if (logIn) {

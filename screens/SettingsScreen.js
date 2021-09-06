@@ -106,13 +106,15 @@ class SettingsScreen extends React.Component {
     if (userData && prevProps.userData !== userData && userData.locale !== this.props.i18n.locale) {
       // Only update app language on user profile language update (not cancel language change)
       if (!this.props.i18n.canceledLocaleChange) {
-        this.changeLanguage(userData.locale.replace('_', '-'));
+        this.changeLanguage(userData.locale);
       }
     } else {
       if (this.props.i18n.canceledLocaleChange) {
+        this.changeLanguage(this.props.i18n.locale);
         this.props.setCancelFalse();
         this.updateUserInfo({
-          locale: prevProps.i18n.previousLocale.replace('-', '_'),
+          locale: this.props.i18n.locale,
+          //locale: prevProps.i18n.previousLocale,
         });
       }
     }
@@ -239,11 +241,12 @@ class SettingsScreen extends React.Component {
       <Picker.Item label={locale.name} value={locale.code} key={locale.code} />
     ));
 
-  selectLanguage = (languageCode) => {
+  selectLanguage = (locale) => {
     // Set language in Server
     this.updateUserInfo({
-      locale: languageCode.replace('-', '_'),
+      locale,
     });
+    //locale: languageCode.replace('-', '_'),
   };
 
   updateUserInfo = (userInfo) => {

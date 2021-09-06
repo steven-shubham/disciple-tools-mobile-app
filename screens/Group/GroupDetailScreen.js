@@ -81,7 +81,6 @@ import footprint from '../../assets/icons/footprint.png';
 import dtIcon from '../../assets/images/dt-icon.png';
 
 import i18n from '../../languages';
-import withI18N from '../../hoc/withI18N';
 
 let toastSuccess;
 let toastError;
@@ -287,7 +286,6 @@ class GroupDetailScreen extends React.Component {
           </Row>
         );
       }
-
       if (params.onlyView) {
         headerLeft = () => (
           <Icon
@@ -316,7 +314,6 @@ class GroupDetailScreen extends React.Component {
         );
       }
     }
-
     return {
       title: navigationTitle,
       headerLeft,
@@ -4963,4 +4960,4 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withI18N(GroupDetailScreen));
+export default connect(mapStateToProps, mapDispatchToProps)(GroupDetailScreen);
