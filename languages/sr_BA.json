@@ -47,7 +47,8 @@
     "selectLocations": "селецтЛоцатионс",
     "other": "друго",
     "chooseOption": "цхоосеОптион",
-    "confirm": "Потврди"
+    "confirm": "Потврди",
+    "selectDate": "Изаберите Датум"
   },
   "loginScreen": {
     "domain": {
@@ -126,7 +127,8 @@
     "noContactCommentPlacheHolderOffline": "Тренутно сте ван мреже. Уверите се да сте повезани на ВиФи или мобилне податке како бисте освежили и добили коментар на контакт.",
     "importContact": "Увезите телефонски контакт",
     "contactSharedWith": "цонтацтСхаредВитх",
-    "ageNotSet": "агеНотСет"
+    "ageNotSet": "агеНотСет",
+    "contactType": "Тип контакта"
   },
   "groupDetailScreen": {
     "addNewGroup": "Додај нову групу",

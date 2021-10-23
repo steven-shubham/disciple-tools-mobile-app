@@ -47,7 +47,8 @@
     "selectLocations": "เลือกสถานที่",
     "other": "อื่น ๆ",
     "chooseOption": "เลือกตัวเลือก",
-    "confirm": "ยืนยัน"
+    "confirm": "ยืนยัน",
+    "selectDate": "เลือกวันที่"
   },
   "loginScreen": {
     "domain": {
@@ -126,7 +127,8 @@
     "noContactCommentPlacheHolderOffline": "ขณะนี้คุณออฟไลน์ ตรวจสอบให้แน่ใจว่าคุณเชื่อมต่อกับ wifi หรือข้อมูลมือถือเพื่อรีเฟรชและรับความคิดเห็นติดต่อของคุณ",
     "importContact": "นำเข้ารายชื่อติดต่อทางโทรศัพท์",
     "contactSharedWith": "contactSharedWith",
-    "ageNotSet": "ageNotSet"
+    "ageNotSet": "ageNotSet",
+    "contactType": "ประเภทการติดต่อ"
   },
   "groupDetailScreen": {
     "addNewGroup": "เพิ่มกลุ่มใหม่",

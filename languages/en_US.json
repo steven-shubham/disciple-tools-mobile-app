@@ -47,7 +47,8 @@
     "selectLocations": "Select Locations",
     "other": "Other",
     "chooseOption": "Choose an option",
-    "confirm": "Confirm"
+    "confirm": "Confirm",
+    "selectDate": "Select Date"
   },
   "loginScreen": {
     "domain": {
@@ -126,7 +127,8 @@
     "noContactCommentPlacheHolderOffline": "You are currently offline. Ensure you are connected to wifi or mobile data in order to refresh and get your contact comment.",
     "importContact": "Import a phone contact",
     "contactSharedWith": "This contact is shared with",
-    "ageNotSet": "No age set"
+    "ageNotSet": "No age set",
+    "contactType": "Contact Type"
   },
   "groupDetailScreen": {
     "addNewGroup": "Add New Group",

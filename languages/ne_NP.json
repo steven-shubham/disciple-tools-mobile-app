@@ -47,7 +47,8 @@
     "selectLocations": "चयन गर्नुहोस्",
     "other": "अन्य",
     "chooseOption": "छनौट गर्नुहोस्",
-    "confirm": "निश्चित गर्नुहोस्"
+    "confirm": "निश्चित गर्नुहोस्",
+    "selectDate": "मिति चयन गर्नुहोस्"
   },
   "loginScreen": {
     "domain": {
@@ -126,7 +127,8 @@
     "noContactCommentPlacheHolderOffline": "तपाईं हाल अफलाईन हुनुहुन्छ। रिफ्रेस गर्न र तपाईंको सम्पर्क टिप्पणी प्राप्त गर्न तपाई वाईफाई वा मोबाईल डाटामा जडित हुनुहुन्छ भनि निश्चित गर्नुहोस्।",
     "importContact": "एक फोन सम्पर्क आयात गर्नुहोस्",
     "contactSharedWith": "contactSharedWith",
-    "ageNotSet": "ageNotSet"
+    "ageNotSet": "ageNotSet",
+    "contactType": "सम्पर्क प्रकार"
   },
   "groupDetailScreen": {
     "addNewGroup": "नयाँ समूह थप्नुहोस्",

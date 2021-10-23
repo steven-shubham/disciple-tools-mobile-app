@@ -47,7 +47,8 @@
     "selectLocations": "પસંદ કરો સ્થાનો",
     "other": "અન્ય",
     "chooseOption": "ઓપ્શન",
-    "confirm": "ખાતરી કરો"
+    "confirm": "ખાતરી કરો",
+    "selectDate": "તારીખ પસંદ કરો"
   },
   "loginScreen": {
     "domain": {
@@ -126,7 +127,8 @@
     "noContactCommentPlacheHolderOffline": "તમે હાલમાં offlineફલાઇન છો. તમારી સંપર્ક ટિપ્પણી તાજું કરવા અને મેળવવા માટે તમે વાઇફાઇ અથવા મોબાઇલ ડેટાથી કનેક્ટ છો તેની ખાતરી કરો.",
     "importContact": "ફોન સંપર્ક આયાત કરો",
     "contactSharedWith": "સંપર્ક શેર કરો",
-    "ageNotSet": "વયનોટસેટ"
+    "ageNotSet": "વયનોટસેટ",
+    "contactType": "સંપર્ક પ્રકાર"
   },
   "groupDetailScreen": {
     "addNewGroup": "નવું જૂથ ઉમેરો",

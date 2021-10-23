@@ -665,7 +665,10 @@ export default function contactsReducer(state = initialState, action) {
             }
           });
           let tileFieldsOrdered = [];
-          if (settings.tiles[tileName].hasOwnProperty('order')) {
+          if (
+            settings.tiles[tileName].hasOwnProperty('order') &&
+            Array.isArray(settings.tiles[tileName]?.order)
+          ) {
             const orderList = settings.tiles[tileName].order;
             let existingFields = [...orderList];
             let missingFields = [];

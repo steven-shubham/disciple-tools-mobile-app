@@ -47,7 +47,8 @@
     "selectLocations": "chagua Mahali",
     "other": "nyingine",
     "chooseOption": "chagua Chaguo",
-    "confirm": "thibitisha"
+    "confirm": "thibitisha",
+    "selectDate": "Chagua Tarehe"
   },
   "loginScreen": {
     "domain": {
@@ -126,7 +127,8 @@
     "noContactCommentPlacheHolderOffline": "Hivi sasa uko nje ya mkondo. Hakikisha umeunganishwa na wifi au data ya rununu ili kuburudisha na upate maoni yako ya mawasiliano.",
     "importContact": "Ingiza anwani ya simu",
     "contactSharedWith": "wasilianaSharedWith",
-    "ageNotSet": "umriNotSet"
+    "ageNotSet": "umriNotSet",
+    "contactType": "Aina ya Mawasiliano"
   },
   "groupDetailScreen": {
     "addNewGroup": "Ongeza Kundi Mpya",

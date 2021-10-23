@@ -47,7 +47,8 @@
     "selectLocations": "تحديد المواقع",
     "other": "آخر",
     "chooseOption": "إختر خيارا",
-    "confirm": "تؤكد"
+    "confirm": "تؤكد",
+    "selectDate": "حدد تاريخ"
   },
   "loginScreen": {
     "domain": {
@@ -126,7 +127,8 @@
     "noContactCommentPlacheHolderOffline": "أنت الآن في وضع عدم الاتصال. تأكد من أنك متصل بشبكة wifi أو بيانات الجوال لتحديث والحصول على تعليق الاتصال الخاص بك.",
     "importContact": "استيراد جهة اتصال عبر الهاتف",
     "contactSharedWith": "جهة الاتصال",
-    "ageNotSet": "ageNotSet"
+    "ageNotSet": "ageNotSet",
+    "contactType": "نوع الاتصال"
   },
   "groupDetailScreen": {
     "addNewGroup": "إضافة مجموعة جديدة",

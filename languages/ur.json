@@ -47,7 +47,8 @@
     "selectLocations": "منتخب کریں",
     "other": "دوسرے",
     "chooseOption": "انتخاب کریں",
-    "confirm": "تصدیق کریں"
+    "confirm": "تصدیق کریں",
+    "selectDate": "تاریخ منتخب کریں۔"
   },
   "loginScreen": {
     "domain": {
@@ -126,7 +127,8 @@
     "noContactCommentPlacheHolderOffline": "آپ فی الحال آف لائن ہیں۔ اس بات کو یقینی بنائیں کہ آپ ریفریش اور اپنے رابطے کا تبصرہ حاصل کرنے کے لئے وائی فائی یا موبائل ڈیٹا سے جڑے ہوئے ہیں۔",
     "importContact": "ایک فون رابطہ درآمد کریں۔",
     "contactSharedWith": "سے رابطہ کریں",
-    "ageNotSet": "ageNotSet"
+    "ageNotSet": "ageNotSet",
+    "contactType": "رابطہ کی قسم۔"
   },
   "groupDetailScreen": {
     "addNewGroup": "نیا گروپ شامل کریں",

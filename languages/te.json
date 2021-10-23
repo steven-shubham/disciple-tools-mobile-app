@@ -47,7 +47,8 @@
     "selectLocations": "ఎంపిక స్థానాలు",
     "other": "ఇతర",
     "chooseOption": "ఎంపిక ఎంపిక",
-    "confirm": "నిర్ధారించండి"
+    "confirm": "నిర్ధారించండి",
+    "selectDate": "తేదీని ఎంచుకోండి"
   },
   "loginScreen": {
     "domain": {
@@ -126,7 +127,8 @@
     "noContactCommentPlacheHolderOffline": "మీరు ప్రస్తుతం ఆఫ్‌లైన్‌లో ఉన్నారు. రిఫ్రెష్ చేయడానికి మరియు మీ సంప్రదింపు వ్యాఖ్యను పొందడానికి మీరు వైఫై లేదా మొబైల్ డేటాకు కనెక్ట్ అయ్యారని నిర్ధారించుకోండి.",
     "importContact": "ఫోన్ పరిచయాన్ని దిగుమతి చేయండి",
     "contactSharedWith": "contactSharedWith",
-    "ageNotSet": "ageNotSet"
+    "ageNotSet": "ageNotSet",
+    "contactType": "సంప్రదింపు రకం"
   },
   "groupDetailScreen": {
     "addNewGroup": "క్రొత్త సమూహాన్ని జోడించండి",

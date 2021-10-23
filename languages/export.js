@@ -19,6 +19,11 @@ const TRANSLATION_THRESHOLD = 80.0;
 const POEDITOR_THEME_ID = '251019';
 const POEDITOR_MOBILE_ID = '303023';
 
+if (!process.env.POEDITOR_API_KEY) {
+  console.log("Missing required 'POEDITOR_API_KEY'");
+  process.exit(1);
+}
+
 // required params
 const api_token = process.env.POEDITOR_API_KEY;
 const options = {

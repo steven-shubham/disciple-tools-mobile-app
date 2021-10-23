@@ -107,7 +107,7 @@ i18n.setLocale = function setLocale(languageCode) {
     ne_NP,
     pa_IN,
     fa_IR,
-    pl,
+	  pl,
     pt_BR,
     ro_RO,
     ru_RU,

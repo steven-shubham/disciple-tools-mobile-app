@@ -47,7 +47,8 @@
     "selectLocations": "Xulo goobo",
     "other": "kale",
     "chooseOption": "dooro",
-    "confirm": "xaqiiji"
+    "confirm": "xaqiiji",
+    "selectDate": "Dooro Taariikhda"
   },
   "loginScreen": {
     "domain": {
@@ -126,7 +127,8 @@
     "noContactCommentPlacheHolderOffline": "Adigu waqtigan xaadirka ah Hubso inaad ku xiran tahay wifi ama xogta moobiilka si aad u cusbooneysiiso oo aad u hesho faallooyinka xiriirkaaga.",
     "importContact": "Soo deji xiriir telefoon",
     "contactSharedWith": "kala xiriirSharedWith",
-    "ageNotSet": "da'daNetSet"
+    "ageNotSet": "da'daNetSet",
+    "contactType": "Nooca Xiriirka"
   },
   "groupDetailScreen": {
     "addNewGroup": "Kudar Kooxda Cusub",

@@ -47,7 +47,8 @@
     "selectLocations": "مکانها را انتخاب کنید",
     "other": "دیگر",
     "chooseOption": "گزینه را انتخاب کنید",
-    "confirm": "تایید"
+    "confirm": "تایید",
+    "selectDate": "تاریخ را انتخاب کنید"
   },
   "loginScreen": {
     "domain": {
@@ -126,7 +127,8 @@
     "noContactCommentPlacheHolderOffline": "شما در حال حاضر آفلاین هستید. اطمینان حاصل کنید که برای تازه کردن و گرفتن نظر مخاطب خود به داده های wifi یا تلفن همراه وصل شده اید.",
     "importContact": "وارد کردن از مخاطبین تلفن",
     "contactSharedWith": "تماس با ما به اشتراک گذاشته شود",
-    "ageNotSet": "ageNotSet"
+    "ageNotSet": "ageNotSet",
+    "contactType": "نوع تماس"
   },
   "groupDetailScreen": {
     "addNewGroup": "گروه جدید را اضافه کنید",

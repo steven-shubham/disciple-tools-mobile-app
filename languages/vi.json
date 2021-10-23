@@ -47,7 +47,8 @@
     "selectLocations": "selectLocations",
     "other": "khác",
     "chooseOption": "selectOption",
-    "confirm": "xác nhận"
+    "confirm": "xác nhận",
+    "selectDate": "Chọn ngày"
   },
   "loginScreen": {
     "domain": {
@@ -126,7 +127,8 @@
     "noContactCommentPlacheHolderOffline": "Bạn hiện đang ngoại tuyến. Đảm bảo bạn được kết nối với wifi hoặc dữ liệu di động để làm mới và nhận được liên hệ nhận xét của bạn.",
     "importContact": "Nhập một liên hệ điện thoại",
     "contactSharedWith": "contactSharedWith",
-    "ageNotSet": "ageNotSet"
+    "ageNotSet": "ageNotSet",
+    "contactType": "Loại liên hệ"
   },
   "groupDetailScreen": {
     "addNewGroup": "Thêm nhóm mới",

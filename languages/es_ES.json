@@ -47,7 +47,8 @@
     "selectLocations": "Seleccionar Ubicaciones",
     "other": "Otro",
     "chooseOption": "Escoge una opción",
-    "confirm": "Confirmar"
+    "confirm": "Confirmar",
+    "selectDate": "Seleccione fecha"
   },
   "loginScreen": {
     "domain": {
@@ -126,7 +127,8 @@
     "noContactCommentPlacheHolderOffline": "Actualmente estás desconectado. Asegúrese de estar conectado a wifi o datos móviles para actualizar y obtener su comentario de contacto.",
     "importContact": "Importar un contacto telefónico",
     "contactSharedWith": "Este contacto se comparte con",
-    "ageNotSet": "Edad no establecida"
+    "ageNotSet": "Edad no establecida",
+    "contactType": "Tipo de Contacto"
   },
   "groupDetailScreen": {
     "addNewGroup": "Crear grupo",

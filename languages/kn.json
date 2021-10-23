@@ -47,7 +47,8 @@
     "selectLocations": "ಆಯ್ಕೆ ಸ್ಥಳಗಳು",
     "other": "ಇತರ",
     "chooseOption": "ಆಯ್ಕೆ ಆಯ್ಕೆ",
-    "confirm": "ಖಚಿತಪಡಿಸಿ"
+    "confirm": "ಖಚಿತಪಡಿಸಿ",
+    "selectDate": "ದಿನಾಂಕವನ್ನು ಆಯ್ಕೆ ಮಾಡಿ"
   },
   "loginScreen": {
     "domain": {
@@ -126,7 +127,8 @@
     "noContactCommentPlacheHolderOffline": "ನೀವು ಪ್ರಸ್ತುತ ಆಫ್‌ಲೈನ್‌ನಲ್ಲಿರುವಿರಿ. ರಿಫ್ರೆಶ್ ಮಾಡಲು ಮತ್ತು ನಿಮ್ಮ ಸಂಪರ್ಕ ಕಾಮೆಂಟ್ ಪಡೆಯಲು ನೀವು ವೈಫೈ ಅಥವಾ ಮೊಬೈಲ್ ಡೇಟಾಗೆ ಸಂಪರ್ಕ ಹೊಂದಿದ್ದೀರಿ ಎಂದು ಖಚಿತಪಡಿಸಿಕೊಳ್ಳಿ.",
     "importContact": "ಫೋನ್ ಸಂಪರ್ಕವನ್ನು ಆಮದು ಮಾಡಿ",
     "contactSharedWith": "contactSharedWith",
-    "ageNotSet": "ageNotSet"
+    "ageNotSet": "ageNotSet",
+    "contactType": "ಸಂಪರ್ಕ ಪ್ರಕಾರ"
   },
   "groupDetailScreen": {
     "addNewGroup": "ಹೊಸ ಗುಂಪನ್ನು ಸೇರಿಸಿ",

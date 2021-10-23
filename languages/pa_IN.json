@@ -47,7 +47,8 @@
     "selectLocations": "ਚੁਣੋ",
     "other": "ਹੋਰ",
     "chooseOption": "ਚੋਣ",
-    "confirm": "ਪੁਸ਼ਟੀ ਕਰੋ"
+    "confirm": "ਪੁਸ਼ਟੀ ਕਰੋ",
+    "selectDate": "ਮਿਤੀ ਚੁਣੋ"
   },
   "loginScreen": {
     "domain": {
@@ -126,7 +127,8 @@
     "noContactCommentPlacheHolderOffline": "ਤੁਸੀਂ ਇਸ ਸਮੇਂ offlineਫਲਾਈਨ ਹੋ. ਇਹ ਸੁਨਿਸ਼ਚਿਤ ਕਰੋ ਕਿ ਤੁਸੀਂ ਆਪਣੀ ਸੰਪਰਕ ਟਿੱਪਣੀ ਨੂੰ ਤਾਜ਼ਾ ਕਰਨ ਅਤੇ ਪ੍ਰਾਪਤ ਕਰਨ ਲਈ ਫਾਈ ਜਾਂ ਮੋਬਾਈਲ ਡਾਟਾ ਨਾਲ ਜੁੜੇ ਹੋ.",
     "importContact": "ਇੱਕ ਫ਼ੋਨ ਸੰਪਰਕ ਆਯਾਤ ਕਰੋ",
     "contactSharedWith": "ਸੰਪਰਕ",
-    "ageNotSet": "ਏਜਨੋਟਸੈੱਟ"
+    "ageNotSet": "ਏਜਨੋਟਸੈੱਟ",
+    "contactType": "ਸੰਪਰਕ ਕਿਸਮ"
   },
   "groupDetailScreen": {
     "addNewGroup": "ਨਵਾਂ ਸਮੂਹ ਸ਼ਾਮਲ ਕਰੋ",

@@ -152,34 +152,50 @@ const diff = (obj1, obj2) => {
   return diffs;
 };
 
-const formatDateToBackEnd = (dateString) => {
-  const dateObject = new Date(dateString);
-  const year = dateObject.getFullYear();
-  const month =
-    dateObject.getMonth() + 1 < 10 ? `0${dateObject.getMonth() + 1}` : dateObject.getMonth() + 1;
-  const day = dateObject.getDate() < 10 ? `0${dateObject.getDate()}` : dateObject.getDate();
-  const newDate = `${year}-${month}-${day}`;
-  return newDate;
+const getTodaysDateZeroHHMMSS = (dateValue = null) => {
+  const today = dateValue ? new Date(dateValue) : new Date();
+  const todayZeros = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 0, 0, 0);
+  return todayZeros.valueOf();
 };
 
-const formatDateToView = (date, locale) => {
+const parseDate = (dateValue) => {
+  if (typeof dateValue === 'string')
+    dateValue = isNaN(Date.parse(dateValue)) ? parseInt(dateValue) : Date.parse(dateValue);
+  if (typeof dateValue === 'number' && dateValue?.toString()?.length === 10)
+    return new Date(dateValue * 1000);
+  if (typeof dateValue === 'number' && dateValue?.toString()?.length === 13)
+    return new Date(dateValue); ///1000);
+  return new Date(dateValue);
+};
+
+const formatDate = (dateValue, locale, options) => {
+  if (!dateValue) return null;
+  if (locale) locale = locale?.replace('_', '-');
+  const parsedDateValue = parseDate(dateValue);
+  // D.T stores date values in UTC
+  options['timeZone'] = 'UTC';
+  return new Intl.DateTimeFormat(locale, options).format(parsedDateValue);
+};
+
+const formatDateToView = (dateValue, locale = undefined) => {
   const options = {
     month: 'long',
-    day: 'numeric',
+    day: '2-digit',
     year: 'numeric',
   };
-  const locale_p = locale?.replace('_', '-');
-  return new Intl.DateTimeFormat(locale_p, options).format(new Date(date));
+  return formatDate(dateValue, locale, options);
 };
 
-const formatDateToDatePicker = (timestamp = null) => {
-  let date = timestamp ? new Date(timestamp) : new Date();
-  // Keep date value to current timezone
-  date = new Date(
-    date.getTime() + date.getTimezoneOffset() * 60 * 1000 * Math.sign(date.getTimezoneOffset()),
-  );
-  return date;
+const formatDateToDatePicker = (dateValue, locale = undefined) => {
+  const options = {
+    month: '2-digit',
+    day: '2-digit',
+    year: 'numeric',
+  };
+  return formatDate(dateValue, locale, options);
 };
+
+const formatDateToBackEnd = (dateValue) => dateValue.toUTCString();
 
 const getSelectorColor = (status) => {
   let newColor;
@@ -193,6 +209,9 @@ const getSelectorColor = (status) => {
     newColor = '#366184';
   } else if (status === 'closed') {
     newColor = '#808080';
+  } else {
+    // e.g., 'personal' contacts
+    newColor = '#A020F0';
   }
   return newColor;
 };
@@ -917,7 +936,6 @@ const mergeGroupList = (mappedGroups, persistedGroups) => {
 
 export default {
   diff,
-  formatDateToBackEnd,
   getSelectorColor,
   debounce,
   commentFieldMinHeight,
@@ -936,8 +954,10 @@ export default {
   isNumeric,
   mapGroups,
   mapGroup,
+  getTodaysDateZeroHHMMSS,
   formatDateToView,
   formatDateToDatePicker,
+  formatDateToBackEnd,
   mapFilterOnQueryParams,
   recursivelyMapFilterOnQueryParams,
   mergeContactList,

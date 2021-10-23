@@ -30,7 +30,7 @@ import { Row } from 'react-native-easy-grid';
 import i18n from '../languages';
 import locales from '../languages/locales';
 import Colors from '../constants/Colors';
-import { login, getUserInfo } from '../store/actions/user.actions';
+import { login, getUserInfo, toggleRememberPassword } from '../store/actions/user.actions';
 import { setLanguage, cancelSetLanguage } from '../store/actions/i18n.actions';
 import TextField from '../components/TextField';
 import {
@@ -74,7 +74,6 @@ class LoginScreen extends React.Component {
     groupSettingsRetrieved: false,
     peopleGroupsRetrieved: false,
     usersRetrieved: false,
-    appLanguageSet: false,
     userDataRetrieved: false,
     geonamesRetrieved: false,
     contactFiltersRetrieved: false,
@@ -97,10 +96,17 @@ class LoginScreen extends React.Component {
       hidePassword: true,
     };
 
-    // Set Locale
-    const locale = props?.i18n?.locale ? props.i18n.locale : Localization?.locale;
-    const localeObj = i18n.setLocale(locale);
-    this.props.setLanguage(localeObj.code, localeObj.rtl);
+    // Set locale in APP
+    if (props.i18n.locale) {
+      // Set locale per Redux State
+      const locale = props.i18n.locale;
+      i18n.setLocale(locale);
+    } else {
+      // Set locale (and Redux State) per Device Settings
+      const locale = Localization.locale;
+      const localeObj = i18n.setLocale(locale);
+      this.props.setLanguage(localeObj.code, localeObj.rtl);
+    }
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -246,7 +252,6 @@ class LoginScreen extends React.Component {
         groupSettingsRetrieved: false,
         peopleGroupsRetrieved: false,
         usersRetrieved: false,
-        appLanguageSet: false,
         userDataRetrieved: false,
         geonamesRetrieved: false,
         contactFiltersRetrieved: false,
@@ -298,7 +303,6 @@ class LoginScreen extends React.Component {
                 groupSettingsRetrieved: true,
                 peopleGroupsRetrieved: true,
                 usersRetrieved: true,
-                appLanguageSet: true,
                 userDataRetrieved: true,
                 geonamesRetrieved: true,
                 contactFiltersRetrieved: true,
@@ -331,7 +335,6 @@ class LoginScreen extends React.Component {
     const {
       contactSettingsRetrieved,
       groupSettingsRetrieved,
-      appLanguageSet,
       geonamesRetrieved,
       peopleGroupsRetrieved,
       usersRetrieved,
@@ -349,8 +352,7 @@ class LoginScreen extends React.Component {
     }
 
     // User locale retrieved
-    //if (userData && userData.locale && prevProps.userData.locale !== userData.locale) {
-    if (userData && userData.locale && !appLanguageSet) {
+    if (userData?.locale && prevProps?.userData?.locale !== userData.locale) {
       this.changeLanguage(userData.locale, true);
     }
 
@@ -378,22 +380,22 @@ class LoginScreen extends React.Component {
     }
 
     if (
-      contactSettingsRetrieved &&
-      groupSettingsRetrieved &&
-      peopleGroupsRetrieved &&
-      usersRetrieved &&
-      appLanguageSet &&
       userDataRetrieved &&
-      geonamesRetrieved &&
+      usersRetrieved &&
+      contactSettingsRetrieved &&
       contactFiltersRetrieved &&
-      groupFiltersRetrieved &&
-      notificationsCountRetrieved &&
-      tagsRetrieved
+      groupSettingsRetrieved &&
+      groupFiltersRetrieved
     ) {
       let listsLastUpdate = new Date().toString();
       listsLastUpdate = new Date(listsLastUpdate).toISOString();
       ExpoFileSystemStorage.setItem('listsLastUpdate', listsLastUpdate);
-      this.props.navigation.navigate('ContactList');
+      if (this.props?.i18n?.locale !== userData?.locale) {
+        this.changeLanguage(userData.locale, true);
+      } else {
+        if (!this.props?.rememberPassword) this.toggleRememberPassword();
+        this.props.navigation.navigate('ContactList');
+      }
     }
 
     const userError = prevProps.userReducerError !== userReducerError && userReducerError;
@@ -524,13 +526,11 @@ class LoginScreen extends React.Component {
 
   changeLanguage(locale, logIn = false) {
     const localeObj = i18n.setLocale(locale);
-    this.props.setLanguage(localeObj?.code, localeObj?.rtl);
-    if (localeObj.rtl !== this.props.i18n.isRTL) {
+    this.props.setLanguage(localeObj.code, localeObj.rtl);
+    if (localeObj.rtl !== this.props.i18n.isRTL && !logIn) {
       this.showRestartDialog();
-    } else if (logIn) {
-      this.setState({
-        appLanguageSet: true,
-      });
+    } else if (localeObj.rtl !== this.props.i18n.isRTL && logIn) {
+      this.restartApp();
     } else;
   }
 
@@ -585,6 +585,10 @@ class LoginScreen extends React.Component {
 
   openDocsLink = () => {
     Linking.openURL(`https://disciple-tools.readthedocs.io/en/latest/app`);
+  };
+
+  toggleRememberPassword = () => {
+    this.props.toggleRememberPassword();
   };
 
   // TODO: How to disable iCloud save password feature?
@@ -1061,6 +1065,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   getTags: (domain, token) => {
     dispatch(getTags(domain, token));
+  },
+  toggleRememberPassword: () => {
+    dispatch(toggleRememberPassword());
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);

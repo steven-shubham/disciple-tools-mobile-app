@@ -47,7 +47,8 @@
     "selectLocations": "ကျား",
     "other": "အခြား",
     "chooseOption": "ကဲ",
-    "confirm": "အတည်ပြုပါ"
+    "confirm": "အတည်ပြုပါ",
+    "selectDate": "Date ရွေးပါ"
   },
   "loginScreen": {
     "domain": {
@@ -126,7 +127,8 @@
     "noContactCommentPlacheHolderOffline": "သင်လက်ရှိ offline ဖြစ်နေတယ်။ သင့်အဆက်အသွယ်မှတ်ချက်ကို ရရှိရန် နှင့် ပြန်လည်ဆန်းသစ်စေရန်၊ wifi သို့မဟုတ် မိုဘိုင်းဒေတာနှင့်ချိတ်ဆက်ထားကြောင်းသေချာပါစေ။",
     "importContact": "ဖုန်းအဆက်အသွယ်တစ်ခုကိုတင်သွင်းပါ",
     "contactSharedWith": "အဆက်အသွယ်",
-    "ageNotSet": "မင်္ဂလာပါ"
+    "ageNotSet": "မင်္ဂလာပါ",
+    "contactType": "ဆက်သွယ်ရန်အမျိုးအစား"
   },
   "groupDetailScreen": {
     "addNewGroup": "အုပ်စုအသစ်ထည့်ပါ",

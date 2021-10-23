@@ -826,7 +826,7 @@ class GroupDetailScreen extends React.Component {
 
     // NEW COMMENT
     if (newComment && prevProps.newComment !== newComment) {
-      commentsFlatListRef.scrollToOffset({ animated: true, offset: 0 });
+      if (commentsFlatListRef) commentsFlatListRef.scrollToOffset({ animated: true, offset: 0 });
       this.setComment('');
     }
 
@@ -840,9 +840,9 @@ class GroupDetailScreen extends React.Component {
         (Object.prototype.hasOwnProperty.call(group, 'ID') &&
           !Object.prototype.hasOwnProperty.call(this.state.group, 'ID')) ||
         (Object.prototype.hasOwnProperty.call(group, 'ID') &&
-          group.ID.toString() === this.state.group.ID.toString()) ||
+          group?.ID?.toString() === this.state?.group?.ID?.toString()) ||
         (Object.prototype.hasOwnProperty.call(group, 'oldID') &&
-          group.oldID === this.state.group.ID.toString())
+          group?.oldID === this.state?.group?.ID?.toString())
       ) {
         // Highlight Updates -> Compare this.state.group with group and show differences
         navigation.setParams({ groupName: group.name, groupId: group.ID });
@@ -885,8 +885,8 @@ class GroupDetailScreen extends React.Component {
       // Sane offline group created in DB (AutoID to DBID)
       if (
         (typeof group.ID !== 'undefined' && typeof this.state.group.ID === 'undefined') ||
-        (group.ID && group.ID.toString() === this.state.group.ID.toString()) ||
-        (group.oldID && group.oldID === this.state.group.ID.toString())
+        group?.ID?.toString() === this.state?.group?.ID?.toString() ||
+        (group?.oldID && group.oldID === this.state?.group?.ID?.toString())
       ) {
         // Highlight Updates -> Compare this.state.group with contact and show differences
         this.onRefreshCommentsActivities(group.ID, true);
@@ -1331,7 +1331,7 @@ class GroupDetailScreen extends React.Component {
             })
             .map((item, index) => {
               return (
-                <View key={index.toString()}>
+                <View key={index?.toString()}>
                   {index === 0 && (
                     <View style={styles.contentHeader}>
                       <Grid>
@@ -1355,7 +1355,11 @@ class GroupDetailScreen extends React.Component {
                                   ? { textAlign: 'left', flex: 1 }
                                   : { textAlign: 'right' },
                               ]}>
-                              {sharedTools.formatDateToView(item.date, this.props.locale)}
+                              {/*TODO*/}
+                              {sharedTools.formatDateToView(
+                                item.date,
+                                this.props?.userData?.locale,
+                              )}
                             </Text>
                           </Col>
                         </Row>
@@ -1650,6 +1654,15 @@ class GroupDetailScreen extends React.Component {
             ...sharedTools.diff(unmodifiedGroup, groupToSave),
             name: this.state.group.name,
           };
+          // Map Date nulls to empty string ('')
+          Object.keys(groupToSave).forEach((key) => {
+            if (key?.toLowerCase()?.includes('date') && groupToSave[key] === null) {
+              groupToSave = {
+                ...groupToSave,
+                [key]: '',
+              };
+            }
+          });
           //After 'sharedTools.diff()' method, ID is removed, then we add it again
           if (Object.prototype.hasOwnProperty.call(this.state.group, 'ID')) {
             groupToSave = {
@@ -1669,7 +1682,7 @@ class GroupDetailScreen extends React.Component {
           }
           this.props.saveGroup(this.props.userData.domain, this.props.userData.token, groupToSave);
         } else {
-          //Empty contact name
+          //Empty group name
           this.setState({
             nameRequired: true,
           });
@@ -1682,7 +1695,7 @@ class GroupDetailScreen extends React.Component {
     let baptismDateRegex = /\{(\d+)\}+/;
     if (baptismDateRegex.test(comment)) {
       comment = comment.replace(baptismDateRegex, (match, timestamp) =>
-        sharedTools.formatDateToView(timestamp * 1000, this.props.locale),
+        sharedTools.formatDateToView(timestamp * 1000, this.props?.userData?.locale),
       );
     }
     return comment;
@@ -1887,7 +1900,7 @@ class GroupDetailScreen extends React.Component {
     );
     if (!foundContact) {
       foundContact = this.state.usersContacts.find(
-        (user) => user.value === valueToSearch.toString(),
+        (user) => user.value === valueToSearch?.toString(),
       );
     }
     // User have accesss to this assigned_to user/contact
@@ -1944,7 +1957,7 @@ class GroupDetailScreen extends React.Component {
     }
     return collection.map((entity, index) => (
       <TouchableOpacity
-        key={index.toString()}
+        key={index?.toString()}
         activeOpacity={0.5}
         onPress={() => {
           if (search) {
@@ -2227,7 +2240,7 @@ class GroupDetailScreen extends React.Component {
               triggerCallback={this.filterUsers.bind(this)}
               renderSuggestionsRow={this.renderSuggestionsRow.bind(this)}
               suggestionsData={this.state.suggestedUsers}
-              keyExtractor={(item, index) => item.key.toString()}
+              keyExtractor={(item, index) => item?.key?.toString()}
               suggestionRowHeight={45}
               horizontal={false}
               MaxVisibleRowCount={3}
@@ -2885,12 +2898,12 @@ class GroupDetailScreen extends React.Component {
         );
         columnsByRow.push(<Col key={columnsByRow.length} size={1} />);
         rows.push(
-          <Row key={`${index.toString()}-1`} size={1}>
+          <Row key={`${index?.toString()}-1`} size={1}>
             <Text> </Text>
           </Row>,
         );
         rows.push(
-          <Row key={index.toString()} size={7}>
+          <Row key={index?.toString()} size={7}>
             {columnsByRow}
           </Row>,
         );
@@ -3296,7 +3309,7 @@ class GroupDetailScreen extends React.Component {
             }>
             <View style={[styles.formContainer, { marginTop: 0 }]}>
               {fields.map((field, index) => (
-                <View key={index.toString()}>
+                <View key={index?.toString()}>
                   {field.name == 'group_status' ||
                   field.name == 'health_metrics' ||
                   field.name == 'members' ||
@@ -3334,7 +3347,7 @@ class GroupDetailScreen extends React.Component {
             {fields
               .filter((field) => field.name !== 'tags')
               .map((field, index) => (
-                <View key={index.toString()}>
+                <View key={index?.toString()}>
                   {field.name == 'group_status' ||
                   field.name == 'health_metrics' ||
                   field.type == 'communication_channel' ? (
@@ -3392,8 +3405,8 @@ class GroupDetailScreen extends React.Component {
   renderFieldValue = (field) => {
     let propExist = Object.prototype.hasOwnProperty.call(this.state.group, field.name);
     let mappedValue;
-    let value = this.state.group[field.name],
-      valueType = field.type;
+    let value = this.state.group[field.name];
+    let valueType = field.type;
     let postType;
     if (Object.prototype.hasOwnProperty.call(field, 'post_type')) {
       postType = field.post_type;
@@ -3439,13 +3452,10 @@ class GroupDetailScreen extends React.Component {
         break;
       }
       case 'date': {
-        if (propExist && value.length > 0) {
+        if (propExist) {
           mappedValue = (
-            <Text>
-              {sharedTools.formatDateToView(
-                sharedTools.isNumeric(value) ? parseInt(value) * 1000 : value,
-                this.props.locale,
-              )}
+            <Text style={this.props?.isRTL ? { textAlign: 'left', flex: 1 } : {}}>
+              {sharedTools.formatDateToView(value, this.props?.userData?.locale)}
             </Text>
           );
         }
@@ -3535,7 +3545,7 @@ class GroupDetailScreen extends React.Component {
                     {propExist && value.values.length > 0
                       ? value.values.map((group, index) => (
                           <Col
-                            key={index.toString()}
+                            key={index?.toString()}
                             style={styles.groupCircleContainer}
                             onPress={() => this.goToGroupDetailScreen(group.value, group.name)}>
                             {Object.prototype.hasOwnProperty.call(group, 'is_church') &&
@@ -3733,7 +3743,7 @@ class GroupDetailScreen extends React.Component {
         if (propExist) {
           mappedValue = (
             <Text style={this.props.isRTL ? { textAlign: 'left', flex: 1 } : {}}>
-              {value.toString()}
+              {value?.toString()}
             </Text>
           );
         }
@@ -3745,7 +3755,7 @@ class GroupDetailScreen extends React.Component {
 
   renderMultiSelectField = (field, value, index) => (
     <TouchableOpacity
-      key={index.toString()}
+      key={index?.toString()}
       onPress={() => {
         if (!this.state.onlyView) {
           this.onMilestoneChange(value, field.name);
@@ -3906,23 +3916,25 @@ class GroupDetailScreen extends React.Component {
               onDateChange={(dateValue) =>
                 this.setGroupCustomFieldValue(field.name, dateValue, valueType)
               }
-              defaultDate={
-                this.state.group[field.name] && this.state.group[field.name].length > 0
-                  ? sharedTools.formatDateToDatePicker(this.state.group[field.name] * 1000)
-                  : ''
-              }
+              defaultDate={value ? new Date(sharedTools.formatDateToDatePicker(value)) : null}
+              maximumDate={new Date()}
+              placeHolderText={value ? null : i18n.t('global.selectDate')}
+              placeHolderTextStyle={{ color: Colors.gray }}
+              locale={this.props?.userData?.locale}
             />
-            <Icon
-              type="AntDesign"
-              name="close"
-              style={[
-                styles.formIcon,
-                styles.addRemoveIcons,
-                styles.removeIcons,
-                { marginLeft: 'auto' },
-              ]}
-              onPress={() => this.setGroupCustomFieldValue(field.name, null, valueType)}
-            />
+            {value && (
+              <Icon
+                type="AntDesign"
+                name="close"
+                style={[
+                  styles.formIcon,
+                  styles.addRemoveIcons,
+                  styles.removeIcons,
+                  { marginLeft: 'auto' },
+                ]}
+                onPress={() => this.setGroupCustomFieldValue(field.name, null, valueType)}
+              />
+            )}
           </Row>
         );
         break;
@@ -4158,7 +4170,7 @@ class GroupDetailScreen extends React.Component {
             {value &&
               value.map((communicationChannel, index) =>
                 !communicationChannel.delete ? (
-                  <Row key={index.toString()} style={{ marginBottom: 10 }}>
+                  <Row key={index?.toString()} style={{ marginBottom: 10 }}>
                     <Col style={styles.formIconLabelCol}>
                       <View style={styles.formIconLabelView}>
                         <Icon
@@ -4323,7 +4335,7 @@ class GroupDetailScreen extends React.Component {
         break;
       }
       default: {
-        mappedValue = <Text>{field.toString()}</Text>;
+        mappedValue = <Text>{field?.toString()}</Text>;
         break;
       }
     }
@@ -4379,10 +4391,9 @@ class GroupDetailScreen extends React.Component {
       if (!value) {
         // Clear DatePicker value
         this[`${fieldName}Ref`].state.chosenDate = undefined;
-        this[`${fieldName}Ref`].state.defaultDate = new Date();
         this.forceUpdate();
       }
-      value = value ? sharedTools.formatDateToBackEnd(value) : '';
+      value = sharedTools.formatDateToBackEnd(value);
     }
 
     this.setState((prevState) => ({

@@ -47,7 +47,8 @@
     "selectLocations": "selectLocations",
     "other": "drugo",
     "chooseOption": "chooseOption",
-    "confirm": "potvrdi"
+    "confirm": "potvrdi",
+    "selectDate": "Odaberite Datum"
   },
   "loginScreen": {
     "domain": {
@@ -126,7 +127,8 @@
     "noContactCommentPlacheHolderOffline": "Trenutno ste offline. Provjerite jeste li povezani na WiFi ili mobilne podatke kako biste osvježili podatke i došli do svog komentara kontakta.",
     "importContact": "Uvezite telefonski kontakt",
     "contactSharedWith": "contactSharedWith",
-    "ageNotSet": "ageNotSet"
+    "ageNotSet": "ageNotSet",
+    "contactType": "Vrsta kontakta"
   },
   "groupDetailScreen": {
     "addNewGroup": "Dodaj novu grupu",

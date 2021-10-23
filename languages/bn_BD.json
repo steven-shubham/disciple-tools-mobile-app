@@ -47,7 +47,8 @@
     "selectLocations": "নির্বাচন করুন",
     "other": "অন্যান্য",
     "chooseOption": "অপশন",
-    "confirm": "নিশ্চিত করুন"
+    "confirm": "নিশ্চিত করুন",
+    "selectDate": "তারিখ নির্বাচন করুন"
   },
   "loginScreen": {
     "domain": {
@@ -126,7 +127,8 @@
     "noContactCommentPlacheHolderOffline": "আপনি বর্তমানে অফলাইন আপনার যোগাযোগের মন্তব্যটি রিফ্রেশ করার জন্য এবং আপনি ওয়াইফাই বা মোবাইল ডেটার সাথে সংযুক্ত আছেন তা নিশ্চিত করুন।",
     "importContact": "একটি ফোন পরিচিতি আমদানি করুন",
     "contactSharedWith": "যোগাযোগ",
-    "ageNotSet": "বয়সনোটসেট"
+    "ageNotSet": "বয়সনোটসেট",
+    "contactType": "যোগাযোগ ধরন"
   },
   "groupDetailScreen": {
     "addNewGroup": "নতুন গ্রুপ যুক্ত করুন",

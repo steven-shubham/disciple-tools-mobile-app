@@ -47,7 +47,8 @@
     "selectLocations": "selectați Locații",
     "other": "alte",
     "chooseOption": "alegeți Opțiune",
-    "confirm": "a confirma"
+    "confirm": "a confirma",
+    "selectDate": "Selectați Data"
   },
   "loginScreen": {
     "domain": {
@@ -126,7 +127,8 @@
     "noContactCommentPlacheHolderOffline": "În prezent sunteți offline. Asigurați-vă că sunteți conectat la date wifi sau mobile pentru a vă reîmprospăta și a primi comentariul de contact.",
     "importContact": "Importați un contact telefonic",
     "contactSharedWith": "contactSharedWith",
-    "ageNotSet": "ageNotSet"
+    "ageNotSet": "ageNotSet",
+    "contactType": "Tipul de contact"
   },
   "groupDetailScreen": {
     "addNewGroup": "Adăugați grup nou",

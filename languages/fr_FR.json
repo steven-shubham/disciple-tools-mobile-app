@@ -47,7 +47,8 @@
     "selectLocations": "selectLocations",
     "other": "autre",
     "chooseOption": "choisirOption",
-    "confirm": "confirmer"
+    "confirm": "confirmer",
+    "selectDate": "Sélectionner une date"
   },
   "loginScreen": {
     "domain": {
@@ -126,7 +127,8 @@
     "noContactCommentPlacheHolderOffline": "Vous êtes actuellement hors ligne. Assurez-vous que vous êtes connecté au wifi ou aux données mobiles afin de vous rafraîchir et d'obtenir votre commentaire de contact.",
     "importContact": "Importer un contact téléphonique",
     "contactSharedWith": "contactSharedWith",
-    "ageNotSet": "ageNotSet"
+    "ageNotSet": "ageNotSet",
+    "contactType": "type de contact"
   },
   "groupDetailScreen": {
     "addNewGroup": "Ajouter un nouveau groupe",

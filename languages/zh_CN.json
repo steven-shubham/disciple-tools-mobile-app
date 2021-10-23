@@ -47,7 +47,8 @@
     "selectLocations": "selectLocations",
     "other": "其他",
     "chooseOption": "选择选项",
-    "confirm": "确认"
+    "confirm": "确认",
+    "selectDate": "选择日期"
   },
   "loginScreen": {
     "domain": {
@@ -126,7 +127,8 @@
     "noContactCommentPlacheHolderOffline": "您目前离线。确保您已连接到wifi或移动数据，以便刷新并获取联系评论。",
     "importContact": "导入电话联系人",
     "contactSharedWith": "contactSharedWith",
-    "ageNotSet": "ageNotSet"
+    "ageNotSet": "ageNotSet",
+    "contactType": "联系方式"
   },
   "groupDetailScreen": {
     "addNewGroup": "新增群组",

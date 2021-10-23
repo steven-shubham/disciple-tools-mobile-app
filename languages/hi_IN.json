@@ -47,7 +47,8 @@
     "selectLocations": "चयन",
     "other": "अन्य",
     "chooseOption": "चयन",
-    "confirm": "पुष्टि करें"
+    "confirm": "पुष्टि करें",
+    "selectDate": "तारीख़ चुनें"
   },
   "loginScreen": {
     "domain": {
@@ -126,7 +127,8 @@
     "noContactCommentPlacheHolderOffline": "आप वर्तमान में ऑफ़लाइन हैं। सुनिश्चित करें कि आप अपने संपर्क टिप्पणी को ताज़ा करने और प्राप्त करने के लिए वाईफाई या मोबाइल डेटा से जुड़े हुए हैं।",
     "importContact": "फ़ोन संपर्क आयात करें",
     "contactSharedWith": "संपर्क करें",
-    "ageNotSet": "ageNotSet"
+    "ageNotSet": "ageNotSet",
+    "contactType": "संपर्क प्रकार"
   },
   "groupDetailScreen": {
     "addNewGroup": "नया समूह जोड़ें",

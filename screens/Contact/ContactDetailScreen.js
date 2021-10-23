@@ -356,7 +356,21 @@ class ContactDetailScreen extends React.Component {
   }
 
   renderCreationFields() {
-    let creationFields = [];
+    let creationFields = [
+      {
+        name: 'type',
+        label: i18n.t('contactDetailScreen.contactType'),
+        type: 'key_select',
+        default: {
+          personal: {
+            label: 'Personal',
+          },
+          access: {
+            label: 'Access',
+          },
+        },
+      },
+    ];
     this.props.contactSettings.tiles.forEach((tile) => {
       let creationFieldsByTile = tile.fields.filter(
         (field) =>
@@ -924,9 +938,9 @@ class ContactDetailScreen extends React.Component {
         (Object.prototype.hasOwnProperty.call(contact, 'ID') &&
           !Object.prototype.hasOwnProperty.call(this.state.contact, 'ID')) ||
         (Object.prototype.hasOwnProperty.call(contact, 'ID') &&
-          contact.ID.toString() === this.state.contact.ID.toString()) ||
+          contact?.ID?.toString() === this.state?.contact?.ID?.toString()) ||
         (Object.prototype.hasOwnProperty.call(contact, 'oldID') &&
-          contact.oldID === this.state.contact.ID.toString())
+          contact?.oldID === this.state?.contact?.ID?.toString())
       ) {
         // Highlight Updates -> Compare this.state.contact with contact and show differences
         navigation.setParams({ contactName: contact.name, contactId: contact.ID });
@@ -959,9 +973,9 @@ class ContactDetailScreen extends React.Component {
       // Same contact updated (offline/online)
       // Same offline contact created in DB (AutoID to DBID)
       if (
-        (typeof contact.ID !== 'undefined' && typeof this.state.contact.ID === 'undefined') ||
-        (contact.ID && contact.ID.toString() === this.state.contact.ID.toString()) ||
-        (contact.oldID && contact.oldID === this.state.contact.ID.toString())
+        (typeof contact?.ID !== 'undefined' && typeof this.state?.contact?.ID === 'undefined') ||
+        (contact?.ID && contact?.ID?.toString() === this.state?.contact?.ID?.toString()) ||
+        (contact?.oldID && contact?.oldID === this.state?.contact.ID.toString())
       ) {
         // Highlight Updates -> Compare this.state.contact with current contact and show differences
         this.onRefreshCommentsActivities(contact.ID, true);
@@ -1030,6 +1044,7 @@ class ContactDetailScreen extends React.Component {
       newState = {
         contact: {
           name: importContact.title,
+          type: 'personal',
           sources: {
             values: [
               {
@@ -1050,6 +1065,7 @@ class ContactDetailScreen extends React.Component {
         contact: {
           ID: contactId,
           name: contactName,
+          type: 'personal',
           sources: {
             values: [
               {
@@ -1067,6 +1083,7 @@ class ContactDetailScreen extends React.Component {
       newState = {
         contact: {
           name: null,
+          type: 'personal',
           sources: {
             values: [
               {
@@ -1529,11 +1546,17 @@ class ContactDetailScreen extends React.Component {
           // Remove empty arrays
           Object.keys(contactToSave).forEach((key) => {
             const value = contactToSave[key];
-            if (
-              Object.prototype.hasOwnProperty.call(value, 'values') &&
-              value.values.length === 0
-            ) {
+            if (value?.values?.length === 0) {
               delete contactToSave[key];
+            }
+          });
+          // Map Date nulls to empty string ('')
+          Object.keys(contactToSave).forEach((key) => {
+            if (key?.toLowerCase()?.includes('date') && contactToSave[key] === null) {
+              contactToSave = {
+                ...contactToSave,
+                [key]: '',
+              };
             }
           });
           //After 'sharedTools.diff()' method, ID is removed, then we add it again
@@ -1541,6 +1564,13 @@ class ContactDetailScreen extends React.Component {
             contactToSave = {
               ...contactToSave,
               ID: this.state.contact.ID,
+            };
+          }
+          // Assign 'personal' contact records to own user id
+          if (contactToSave?.type === 'personal' && !contactToSave?.assigned_to) {
+            contactToSave = {
+              ...contactToSave,
+              assigned_to: this.props.userData?.id,
             };
           }
           if (contactToSave.assigned_to) {
@@ -1572,7 +1602,7 @@ class ContactDetailScreen extends React.Component {
     let baptismDateRegex = /\{(\d+)\}+/;
     if (baptismDateRegex.test(comment)) {
       comment = comment.replace(baptismDateRegex, (match, timestamp) =>
-        sharedTools.formatDateToView(timestamp * 1000, this.props.locale),
+        sharedTools.formatDateToView(timestamp, this.props?.userData?.locale),
       );
     }
     return comment;
@@ -1834,7 +1864,7 @@ class ContactDetailScreen extends React.Component {
     }
     return collection.map((entity, index) => (
       <TouchableOpacity
-        key={index.toString()}
+        key={index?.toString()}
         activeOpacity={0.5}
         onPress={() => {
           if (search) {
@@ -2118,7 +2148,7 @@ class ContactDetailScreen extends React.Component {
               triggerCallback={this.filterUsers.bind(this)}
               renderSuggestionsRow={this.renderSuggestionsRow.bind(this)}
               suggestionsData={this.state.suggestedUsers}
-              keyExtractor={(item, index) => item.key.toString()}
+              keyExtractor={(item, index) => item?.key?.toString()}
               suggestionRowHeight={45}
               horizontal={false}
               MaxVisibleRowCount={3}
@@ -2190,7 +2220,7 @@ class ContactDetailScreen extends React.Component {
             })
             .map((item, index) => {
               return (
-                <View key={index.toString()}>
+                <View key={index?.toString()}>
                   {index === 0 && (
                     <View style={styles.contentHeader}>
                       <Grid>
@@ -2214,7 +2244,10 @@ class ContactDetailScreen extends React.Component {
                                   ? { textAlign: 'left', flex: 1 }
                                   : { textAlign: 'right' },
                               ]}>
-                              {sharedTools.formatDateToView(item.date, this.props.locale)}
+                              {sharedTools.formatDateToView(
+                                item.date,
+                                this.props?.userData?.locale,
+                              )}
                             </Text>
                           </Col>
                         </Row>
@@ -2400,7 +2433,7 @@ class ContactDetailScreen extends React.Component {
     );
     if (!foundContact) {
       foundContact = this.state.usersContacts.find(
-        (user) => user.value === valueToSearch.toString(),
+        (user) => user.value === valueToSearch?.toString(),
       );
     }
     // User have accesss to this assigned_to user/contact
@@ -2843,12 +2876,12 @@ class ContactDetailScreen extends React.Component {
         );
         columnsByRow.push(<Col key={columnsByRow.length} size={1} />);
         rows.push(
-          <Row key={`${index.toString()}-1`} size={1}>
+          <Row key={`${index?.toString()}-1`} size={1}>
             <Text> </Text>
           </Row>,
         );
         rows.push(
-          <Row key={index.toString()} size={7}>
+          <Row key={index?.toString()} size={7}>
             {columnsByRow}
           </Row>,
         );
@@ -3007,8 +3040,8 @@ class ContactDetailScreen extends React.Component {
   }
 
   renderFieldIcon(field, detailMode = false, hideIcon = false) {
-    let iconType = '',
-      iconName = '';
+    let iconType = '';
+    let iconName = '';
     switch (field.type) {
       case 'location':
       case 'location_meta':
@@ -3174,7 +3207,7 @@ class ContactDetailScreen extends React.Component {
             }>
             <View style={[styles.formContainer, { marginTop: 0 }]}>
               {fields.map((field, index) => (
-                <View key={index.toString()}>
+                <View key={index?.toString()}>
                   {field.name == 'overall_status' || field.name == 'milestones' ? (
                     this.renderFieldValue(field)
                   ) : (
@@ -3206,12 +3239,15 @@ class ContactDetailScreen extends React.Component {
           <View style={[styles.formContainer, { marginTop: 10, paddingTop: 0 }]}>
             {/* TODO: enable edit of 'tags' and 'campaigns' */}
             {fields
-              .filter((field) => field.name !== 'tags' && field.name !== 'campaigns')
+              .filter(
+                (field) =>
+                  field.name !== 'tags' &&
+                  field.name !== 'campaigns' &&
+                  field.name !== 'dt_echo_convo_ids',
+              )
               .map((field, index) => (
-                <View key={index.toString()}>
-                  {field.name == 'overall_status' ||
-                  field.name == 'milestones' ||
-                  field.type == 'communication_channel' ? (
+                <View key={index?.toString()}>
+                  {field.name == 'overall_status' || field.name == 'milestones' ? (
                     this.renderField(field)
                   ) : (
                     <Col>
@@ -3313,13 +3349,10 @@ class ContactDetailScreen extends React.Component {
         break;
       }
       case 'date': {
-        if (propExist && value.length > 0) {
+        if (propExist) {
           mappedValue = (
-            <Text>
-              {sharedTools.formatDateToView(
-                sharedTools.isNumeric(value) ? parseInt(value) * 1000 : value,
-                this.props.locale,
-              )}
+            <Text style={this.props?.isRTL ? { textAlign: 'left', flex: 1 } : {}}>
+              {sharedTools.formatDateToView(value, this.props?.userData?.locale)}
             </Text>
           );
         }
@@ -3438,7 +3471,7 @@ class ContactDetailScreen extends React.Component {
               .filter((communicationChannel) => !communicationChannel.delete)
               .map((communicationChannel, index) => (
                 <TouchableOpacity
-                  key={index.toString()}
+                  key={index?.toString()}
                   activeOpacity={0.5}
                   onPress={() => {
                     this.linkingPhoneDialer(communicationChannel.value);
@@ -3458,7 +3491,7 @@ class ContactDetailScreen extends React.Component {
               .filter((communicationChannel) => !communicationChannel.delete)
               .map((communicationChannel, index) => (
                 <TouchableOpacity
-                  key={index.toString()}
+                  key={index?.toString()}
                   activeOpacity={0.5}
                   onPress={() => {
                     Linking.openURL('mailto:' + communicationChannel.value);
@@ -3480,7 +3513,7 @@ class ContactDetailScreen extends React.Component {
                 <>
                   {communicationChannel?.value?.includes('://') ? (
                     <TouchableOpacity
-                      key={index.toString()}
+                      key={index?.toString()}
                       activeOpacity={0.5}
                       onPress={() => {
                         Linking.openURL(communicationChannel.value);
@@ -3621,7 +3654,7 @@ class ContactDetailScreen extends React.Component {
         if (propExist) {
           mappedValue = (
             <Text style={this.props.isRTL ? { textAlign: 'left', flex: 1 } : {}}>
-              {value.toString()}
+              {value?.toString()}
             </Text>
           );
         }
@@ -3633,7 +3666,7 @@ class ContactDetailScreen extends React.Component {
 
   renderMultiSelectField = (field, value, index) => (
     <TouchableOpacity
-      key={index.toString()}
+      key={index?.toString()}
       onPress={() => {
         if (!this.state.onlyView) {
           this.onMilestoneChange(value, field.name);
@@ -3667,8 +3700,8 @@ class ContactDetailScreen extends React.Component {
   renderField = (field) => {
     let propExist = Object.prototype.hasOwnProperty.call(this.state.contact, field.name);
     let mappedValue;
-    let value = this.state.contact[field.name],
-      valueType = field.type;
+    let value = this.state.contact[field.name];
+    let valueType = field.type;
     let postType;
     if (Object.prototype.hasOwnProperty.call(field, 'post_type')) {
       postType = field.post_type;
@@ -3751,23 +3784,25 @@ class ContactDetailScreen extends React.Component {
               onDateChange={(dateValue) =>
                 this.setContactCustomFieldValue(field.name, dateValue, valueType)
               }
-              defaultDate={
-                this.state.contact[field.name] && this.state.contact[field.name].length > 0
-                  ? sharedTools.formatDateToDatePicker(this.state.contact[field.name] * 1000)
-                  : ''
-              }
+              defaultDate={value ? new Date(sharedTools.formatDateToDatePicker(value)) : null}
+              maximumDate={new Date()}
+              placeHolderText={value ? null : i18n.t('global.selectDate')}
+              placeHolderTextStyle={{ color: Colors.gray }}
+              locale={this.props?.userData?.locale}
             />
-            <Icon
-              type="AntDesign"
-              name="close"
-              style={[
-                styles.formIcon,
-                styles.addRemoveIcons,
-                styles.removeIcons,
-                { marginLeft: 'auto' },
-              ]}
-              onPress={() => this.setContactCustomFieldValue(field.name, null, valueType)}
-            />
+            {value && (
+              <Icon
+                type="AntDesign"
+                name="close"
+                style={[
+                  styles.formIcon,
+                  styles.addRemoveIcons,
+                  styles.removeIcons,
+                  { marginLeft: 'auto' },
+                ]}
+                onPress={() => this.setContactCustomFieldValue(field.name, null, valueType)}
+              />
+            )}
           </Row>
         );
         break;
@@ -3991,14 +4026,6 @@ class ContactDetailScreen extends React.Component {
           <Col>
             <Row style={styles.formFieldMargin}>
               <Col style={styles.formIconLabelCol}>
-                <View style={styles.formIconLabelView}>
-                  <Icon type="Octicons" name="primitive-dot" style={styles.formIcon} />
-                </View>
-              </Col>
-              <Col>
-                <Label style={styles.formLabel}>{field.label}</Label>
-              </Col>
-              <Col style={styles.formIconLabel}>
                 <Icon
                   android="md-add"
                   ios="ios-add"
@@ -4012,7 +4039,7 @@ class ContactDetailScreen extends React.Component {
             {value &&
               value.map((communicationChannel, index) =>
                 !communicationChannel.delete ? (
-                  <Row key={index.toString()} style={{ marginBottom: 10 }}>
+                  <Row key={index?.toString()} style={{ marginBottom: 10 }}>
                     <Col style={styles.formIconLabelCol}>
                       <View style={styles.formIconLabelView}>
                         <Icon
@@ -4057,95 +4084,103 @@ class ContactDetailScreen extends React.Component {
       }
       case 'key_select': {
         if (field.name === 'overall_status') {
-          mappedValue = (
-            <Col>
-              <Row style={[styles.formRow, { paddingTop: 15 }]}>
-                <Col style={[styles.formIconLabel, { marginRight: 10 }]}>
-                  <Image source={statusIcon} style={[styles.fieldsIcons, {}]} />
-                </Col>
-                <Col>
-                  <Label
+          if (value) {
+            mappedValue = (
+              <Col>
+                <Row style={[styles.formRow, { paddingTop: 15 }]}>
+                  <Col style={[styles.formIconLabel, { marginRight: 10 }]}>
+                    <Image source={statusIcon} style={[styles.fieldsIcons, {}]} />
+                  </Col>
+                  <Col>
+                    <Label
+                      style={[
+                        {
+                          color: Colors.tintColor,
+                          fontSize: 12,
+                          fontWeight: 'bold',
+                          marginTop: 'auto',
+                          marginBottom: 'auto',
+                        },
+                        this.props.isRTL ? { textAlign: 'left', flex: 1 } : {},
+                      ]}>
+                      {field.label}
+                    </Label>
+                  </Col>
+                </Row>
+                <Row style={[styles.formRow, { paddingTop: 5, paddingBottom: 5 }]}>
+                  <Col
                     style={[
-                      {
-                        color: Colors.tintColor,
-                        fontSize: 12,
-                        fontWeight: 'bold',
-                        marginTop: 'auto',
-                        marginBottom: 'auto',
-                      },
-                      this.props.isRTL ? { textAlign: 'left', flex: 1 } : {},
+                      styles.statusFieldContainer,
+                      Platform.select({
+                        android: {
+                          borderColor: this.state.overallStatusBackgroundColor,
+                          backgroundColor: this.state.overallStatusBackgroundColor,
+                        },
+                      }),
                     ]}>
-                    {field.label}
-                  </Label>
-                </Col>
-              </Row>
-              <Row style={[styles.formRow, { paddingTop: 5, paddingBottom: 5 }]}>
-                <Col
-                  style={[
-                    styles.statusFieldContainer,
-                    Platform.select({
-                      android: {
-                        borderColor: this.state.overallStatusBackgroundColor,
-                        backgroundColor: this.state.overallStatusBackgroundColor,
-                      },
-                    }),
-                  ]}>
-                  <Picker
-                    selectedValue={value}
-                    onValueChange={this.setContactStatus}
-                    style={Platform.select({
-                      android: {
+                    <Picker
+                      selectedValue={value}
+                      onValueChange={this.setContactStatus}
+                      style={Platform.select({
+                        android: {
+                          color: '#ffffff',
+                          backgroundColor: 'transparent',
+                        },
+                        ios: {
+                          backgroundColor: this.state.overallStatusBackgroundColor,
+                        },
+                      })}
+                      textStyle={{
                         color: '#ffffff',
-                        backgroundColor: 'transparent',
-                      },
-                      ios: {
-                        backgroundColor: this.state.overallStatusBackgroundColor,
-                      },
-                    })}
-                    textStyle={{
-                      color: '#ffffff',
-                    }}>
-                    {this.renderStatusPickerItems()}
-                  </Picker>
-                  <Icon name="caret-down" size={10} style={styles.pickerIcon} />
-                </Col>
-              </Row>
-              {Object.prototype.hasOwnProperty.call(
-                this.state.contact,
-                `reason_${this.state.contact.overall_status}`,
-              ) ? (
-                <TouchableOpacity activeOpacity={0.6} onPress={this.toggleReasonStatusView}>
-                  <Row>
-                    <Text>
-                      (
-                      {
-                        this.props.contactSettings.fields[
-                          `reason_${this.state.contact.overall_status}`
-                        ].values[this.state.contact[`reason_${this.state.contact.overall_status}`]]
-                          .label
-                      }
-                      )
-                    </Text>
-                    <Icon
-                      type="MaterialCommunityIcons"
-                      name="pencil"
-                      style={{
-                        fontSize: 21,
-                      }}
-                    />
-                  </Row>
-                </TouchableOpacity>
-              ) : null}
-            </Col>
-          );
+                      }}>
+                      {this.renderStatusPickerItems()}
+                    </Picker>
+                    <Icon name="caret-down" size={10} style={styles.pickerIcon} />
+                  </Col>
+                </Row>
+                {Object.prototype.hasOwnProperty.call(
+                  this.state.contact,
+                  `reason_${this.state.contact.overall_status}`,
+                ) ? (
+                  <TouchableOpacity activeOpacity={0.6} onPress={this.toggleReasonStatusView}>
+                    <Row>
+                      <Text>
+                        (
+                        {
+                          this.props.contactSettings.fields[
+                            `reason_${this.state.contact.overall_status}`
+                          ].values[
+                            this.state.contact[`reason_${this.state.contact.overall_status}`]
+                          ].label
+                        }
+                        )
+                      </Text>
+                      <Icon
+                        type="MaterialCommunityIcons"
+                        name="pencil"
+                        style={{
+                          fontSize: 21,
+                        }}
+                      />
+                    </Row>
+                  </TouchableOpacity>
+                ) : null}
+              </Col>
+            );
+          } else {
+            mappedValue = null;
+          }
         } else {
           mappedValue = (
             <Picker
               mode="dropdown"
-              selectedValue={this.state.contact[field.name]}
+              selectedValue={
+                field?.name === 'type' && this.state.contact[field.name] === undefined
+                  ? 'personal'
+                  : this.state.contact[field.name]
+              }
               onValueChange={(value) => this.setContactCustomFieldValue(field.name, value)}
               textStyle={{ color: Colors.tintColor }}>
-              <Picker.Item key={-1} label={''} value={''} />
               {Object.keys(field.default).map((key) => {
                 const optionData = field.default[key];
                 return <Picker.Item key={key} label={optionData.label} value={key} />;
@@ -4206,7 +4241,7 @@ class ContactDetailScreen extends React.Component {
         break;
       }
       default: {
-        mappedValue = <Text>{field.toString()}</Text>;
+        mappedValue = <Text>{field?.toString()}</Text>;
         break;
       }
     }
@@ -4218,10 +4253,8 @@ class ContactDetailScreen extends React.Component {
       if (!value) {
         // Clear DatePicker value
         this[`${fieldName}Ref`].state.chosenDate = undefined;
-        this[`${fieldName}Ref`].state.defaultDate = new Date();
         this.forceUpdate();
       }
-      value = value ? sharedTools.formatDateToBackEnd(value) : '';
     }
 
     this.setState((prevState) => ({

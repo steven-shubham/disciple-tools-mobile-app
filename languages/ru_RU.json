@@ -47,7 +47,8 @@
     "selectLocations": "selectLocations",
     "other": "Другие",
     "chooseOption": "selectOption",
-    "confirm": "подтверждать"
+    "confirm": "подтверждать",
+    "selectDate": "Выберите дату"
   },
   "loginScreen": {
     "domain": {
@@ -126,7 +127,8 @@
     "noContactCommentPlacheHolderOffline": "Вы в настоящее время не в сети. Убедитесь, что вы подключены к Wi-Fi или мобильным данным, чтобы обновить и получить свой контактный комментарий.",
     "importContact": "Импортировать телефонный контакт",
     "contactSharedWith": "contactSharedWith",
-    "ageNotSet": "ageNotSet"
+    "ageNotSet": "ageNotSet",
+    "contactType": "Тип контакта"
   },
   "groupDetailScreen": {
     "addNewGroup": "Добавить новую группу",

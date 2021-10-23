@@ -47,7 +47,8 @@
     "selectLocations": "изберетеЛокации",
     "other": "други",
     "chooseOption": "изберете Опција",
-    "confirm": "потврди"
+    "confirm": "потврди",
+    "selectDate": "Изберете Датум"
   },
   "loginScreen": {
     "domain": {
@@ -126,7 +127,8 @@
     "noContactCommentPlacheHolderOffline": "Во моментов сте офлајн. Осигурете се дека сте поврзани со Wi-Fi или мобилни податоци со цел да се освежите и да добиете коментар за контакт.",
     "importContact": "Увезете телефонски контакт",
     "contactSharedWith": "контактСподелиСо",
-    "ageNotSet": "возрастНеПоставено"
+    "ageNotSet": "возрастНеПоставено",
+    "contactType": "Тип на контакт"
   },
   "groupDetailScreen": {
     "addNewGroup": "Додадете нова група",

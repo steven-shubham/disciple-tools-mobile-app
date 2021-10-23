@@ -47,7 +47,8 @@
     "selectLocations": "selectLocations",
     "other": "iba pa",
     "chooseOption": "pumili ng Opsyon",
-    "confirm": "kumpirmahin"
+    "confirm": "kumpirmahin",
+    "selectDate": "Piliin ang Petsa"
   },
   "loginScreen": {
     "domain": {
@@ -126,7 +127,8 @@
     "noContactCommentPlacheHolderOffline": "Kasalukuyan kang naka-offline. Tiyaking nakakonekta ka sa wifi o mobile data upang mai-refresh at makuha ang iyong komento sa pakikipag-ugnay.",
     "importContact": "Mag-import ng contact sa telepono",
     "contactSharedWith": "contactSharedWith",
-    "ageNotSet": "ageNotSet"
+    "ageNotSet": "ageNotSet",
+    "contactType": "Uri ng Pakikipag-ugnay"
   },
   "groupDetailScreen": {
     "addNewGroup": "Magdagdag ng Bagong Pangkat",

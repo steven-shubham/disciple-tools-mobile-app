@@ -47,7 +47,8 @@
     "selectLocations": "selectLocations",
     "other": "その他",
     "chooseOption": "choiceOption",
-    "confirm": "確認"
+    "confirm": "確認",
+    "selectDate": "日付を選択"
   },
   "loginScreen": {
     "domain": {
@@ -126,7 +127,8 @@
     "noContactCommentPlacheHolderOffline": "現在オフラインです。更新して連絡先コメントを取得するには、Wi-Fiまたはモバイルデータに接続していることを確認してください。",
     "importContact": "電話の連絡先をインポートする",
     "contactSharedWith": "contactSharedWith",
-    "ageNotSet": "ageNotSet"
+    "ageNotSet": "ageNotSet",
+    "contactType": "連絡先タイプ"
   },
   "groupDetailScreen": {
     "addNewGroup": "新しいグループを追加",

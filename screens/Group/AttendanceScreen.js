@@ -97,17 +97,20 @@ const Attendance = ({ navigation }) => {
         comment =
           i18n.t('groupDetailScreen.attendance.didAttendComment') + ':\n"' + group_name + '"\n\n';
         attendedList.push(`@[${name}](${id})`);
-      } else {
+      }
+      /* removed per request
+      else {
         comment =
           i18n.t('groupDetailScreen.attendance.didNotAttendComment') +
           ':\n"' +
           group_name +
           '"\n\n';
       }
+      */
       if (comment.length > 1) {
         comment += attendee.comment;
+        dispatch(saveContactComment(domain, token, id, { comment }));
       }
-      dispatch(saveContactComment(domain, token, id, { comment }));
     });
     var comment =
       i18n.t('groupDetailScreen.attendance.groupComment') +

@@ -47,7 +47,8 @@
     "selectLocations": "selectLocations",
     "other": "lain",
     "chooseOption": "selectOption",
-    "confirm": "Konfirmasi"
+    "confirm": "Konfirmasi",
+    "selectDate": "Pilih Tanggal"
   },
   "loginScreen": {
     "domain": {
@@ -126,7 +127,8 @@
     "noContactCommentPlacheHolderOffline": "Anda sedang offline. Pastikan Anda terhubung ke wifi atau data seluler untuk menyegarkan dan mendapatkan komentar kontak Anda.",
     "importContact": "Impor kontak telepon",
     "contactSharedWith": "contactSharedWith",
-    "ageNotSet": "ageNotSet"
+    "ageNotSet": "ageNotSet",
+    "contactType": "Jenis Kontak"
   },
   "groupDetailScreen": {
     "addNewGroup": "Tambahkan Grup Baru",

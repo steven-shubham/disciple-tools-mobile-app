@@ -47,7 +47,8 @@
     "selectLocations": "Zaɓi wurare",
     "other": "wasu",
     "chooseOption": "Zaɓi",
-    "confirm": "tabbatar"
+    "confirm": "tabbatar",
+    "selectDate": "Zaɓi Kwanan wata"
   },
   "loginScreen": {
     "domain": {
@@ -126,7 +127,8 @@
     "noContactCommentPlacheHolderOffline": "A halin yanzu kana kan layi Tabbatar an haɗa ku zuwa wifi ko bayanan wayar hannu don shakatawa da samun ra'ayi na tuntuɓarku.",
     "importContact": "Shigo da lambar waya",
     "contactSharedWith": "SaduwaSharedWith",
-    "ageNotSet": "shekaraNabaSet"
+    "ageNotSet": "shekaraNabaSet",
+    "contactType": "Nau'in Sadarwa"
   },
   "groupDetailScreen": {
     "addNewGroup": "Sanya Sabuwar Kungiyar",

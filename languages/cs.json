@@ -47,7 +47,8 @@
     "selectLocations": "Vyberte Umístění",
     "other": "jiný",
     "chooseOption": "Zvolte možnost",
-    "confirm": "Potvrdit"
+    "confirm": "Potvrdit",
+    "selectDate": "Vyberte Datum"
   },
   "loginScreen": {
     "domain": {
@@ -126,7 +127,8 @@
     "noContactCommentPlacheHolderOffline": "Aktuálně jste offline. Chcete -li obnovit a získat svůj kontaktní komentář, ujistěte se, že jste připojeni k Wi -Fi nebo mobilním datům.",
     "importContact": "Importovat telefonní kontakt",
     "contactSharedWith": "Tento kontakt je sdílen s",
-    "ageNotSet": "Není stanoven žádný věk"
+    "ageNotSet": "Není stanoven žádný věk",
+    "contactType": "Typ kontaktu"
   },
   "groupDetailScreen": {
     "addNewGroup": "Přidat novou skupinu",

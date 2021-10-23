@@ -47,7 +47,8 @@
     "selectLocations": "selectLocations",
     "other": "diğer",
     "chooseOption": "selectOption",
-    "confirm": "onaylamak"
+    "confirm": "onaylamak",
+    "selectDate": "Tarih seç"
   },
   "loginScreen": {
     "domain": {
@@ -126,7 +127,8 @@
     "noContactCommentPlacheHolderOffline": "Şu anda çevrimdışısınız. İrtibat yorumunuzu yenilemek ve almak için wifi veya mobil verilere bağlı olduğunuzdan emin olun.",
     "importContact": "Bir telefon kişisini içe aktar",
     "contactSharedWith": "contactSharedWith",
-    "ageNotSet": "ageNotSet"
+    "ageNotSet": "ageNotSet",
+    "contactType": "İletişim Türü"
   },
   "groupDetailScreen": {
     "addNewGroup": "Grup Ekle",

@@ -776,8 +776,9 @@ export default function groupsReducer(state = initialState, action) {
       };
     case actions.GROUPS_LOCATIONS_SEARCH_SUCCESS: {
       const { offline, filteredGeonames, queryText } = action;
-      let foundGeonames = [],
-        oldGeonames = [];
+      let foundGeonames = [];
+      let oldGeonames = [];
+      let geonamesToAdd = [];
       if (offline) {
         // Get geonames by queryText
         oldGeonames = filteredGeonames;
@@ -788,7 +789,6 @@ export default function groupsReducer(state = initialState, action) {
         // Get geonames by queryText
         /* eslint-disable */
         oldGeonames = newState.geonames;
-        geonamesToAdd = [];
         /* eslint-enable */
         foundGeonames = filteredGeonames.map((geoname) => ({
           value: geoname.ID,
@@ -803,10 +803,7 @@ export default function groupsReducer(state = initialState, action) {
       return {
         ...newState,
         foundGeonames,
-        geonames: (geonamesToAdd
-          ? [...oldGeonames, ...geonamesToAdd]
-          : [...oldGeonames]
-        ).sort((a, b) => a.value.localeCompare(b.value)),
+        geonames: geonamesToAdd ? [...oldGeonames, ...geonamesToAdd] : [...oldGeonames], //.sort((a, b) => a.value.localeCompare(b.value)),
         loading: false,
       };
     }

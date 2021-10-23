@@ -47,7 +47,8 @@
     "selectLocations": "निवडा",
     "other": "इतर",
     "chooseOption": "निवडा पर्याय",
-    "confirm": "पुष्टी"
+    "confirm": "पुष्टी",
+    "selectDate": "तारीख निवडा"
   },
   "loginScreen": {
     "domain": {
@@ -126,7 +127,8 @@
     "noContactCommentPlacheHolderOffline": "आपण सध्या ऑफलाइन आहात. रीफ्रेश करण्यासाठी आणि आपली संपर्क टिप्पणी घेण्यासाठी आपण वायफाय किंवा मोबाइल डेटाशी कनेक्ट असल्याचे सुनिश्चित करा.",
     "importContact": "फोन संपर्क आयात करा",
     "contactSharedWith": "संपर्क सामायिक करा",
-    "ageNotSet": "ageNotSet"
+    "ageNotSet": "ageNotSet",
+    "contactType": "संपर्क प्रकार"
   },
   "groupDetailScreen": {
     "addNewGroup": "नवीन गट जोडा",

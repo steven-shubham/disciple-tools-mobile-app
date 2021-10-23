@@ -47,7 +47,8 @@
     "selectLocations": "selectLocations",
     "other": "andere",
     "chooseOption": "kiesOptie",
-    "confirm": "bevestigen"
+    "confirm": "bevestigen",
+    "selectDate": "Selecteer een datum"
   },
   "loginScreen": {
     "domain": {
@@ -126,7 +127,8 @@
     "noContactCommentPlacheHolderOffline": "Je bent momenteel offline. Zorg ervoor dat je verbonden bent met wifi of mobiele data om te vernieuwen en je contactcommentaar te krijgen.",
     "importContact": "Een telefooncontact importeren",
     "contactSharedWith": "contactSharedWith",
-    "ageNotSet": "ageNotSet"
+    "ageNotSet": "ageNotSet",
+    "contactType": "contact type"
   },
   "groupDetailScreen": {
     "addNewGroup": "Nieuwe groep toevoegen",

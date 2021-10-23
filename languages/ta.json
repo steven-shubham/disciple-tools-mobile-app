@@ -47,7 +47,8 @@
     "selectLocations": "தேர்ந்தெடுக்கும் இடங்கள்",
     "other": "மற்றவை",
     "chooseOption": "தேர்வு விருப்பம்",
-    "confirm": "உறுதிப்படுத்தவும்"
+    "confirm": "உறுதிப்படுத்தவும்",
+    "selectDate": "தேதியைத் தேர்ந்தெடுக்கவும்"
   },
   "loginScreen": {
     "domain": {
@@ -126,7 +127,8 @@
     "noContactCommentPlacheHolderOffline": "நீங்கள் தற்போது ஆஃப்லைனில் இருக்கிறீர்கள். உங்கள் தொடர்பு கருத்தைப் புதுப்பித்துப் பெறுவதற்காக நீங்கள் வைஃபை அல்லது மொபைல் தரவுடன் இணைக்கப்பட்டுள்ளீர்கள் என்பதை உறுதிப்படுத்தவும்.",
     "importContact": "தொலைபேசி தொடர்பை இறக்குமதி செய்யவும்",
     "contactSharedWith": "contactSharedWith",
-    "ageNotSet": "ageNotSet"
+    "ageNotSet": "ageNotSet",
+    "contactType": "தொடர்பு வகை"
   },
   "groupDetailScreen": {
     "addNewGroup": "புதிய குழுவைச் சேர்க்கவும்",
