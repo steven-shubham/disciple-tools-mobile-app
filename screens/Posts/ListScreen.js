@@ -6,7 +6,7 @@ import { useSWRConfig } from "swr";
 import { HeaderRight } from "components/Header/Header";
 import OfflineBar from "components/OfflineBar";
 import FilterList from "components/FilterList";
-import { ListFAB } from "components/FAB";
+import { ListFAB, GroupAndCustomFAB } from "components/FAB";
 import {
   PostItem,
   PostItemSkeleton,
@@ -23,6 +23,13 @@ import useStyles from "hooks/use-styles";
 import { getPostsFetcher } from "helpers";
 
 import { labelize } from "utils";
+import {
+  ARROW_DEFINITIONS,
+  QUESTIONNAIRE,
+  REFLECTION,
+  TypeConstants,
+} from "constants";
+import useMyUser from "hooks/use-my-user";
 
 //import { localStyles } from "./ListScreen.styles";
 
@@ -47,10 +54,16 @@ const ListScreen = ({ navigation, route }) => {
   const [refreshing, setRefreshing] = useState(false);
 
   const { data: items } = useList({ search, filter });
+  const { data: userData } = useMyUser();
+
+  let role = Object.values(userData?.profile?.roles ?? {})?.[0] ?? "";
   // TODO: handler error case?
 
   useLayoutEffect(() => {
-    const title = labelize(postType) ?? "";
+    let title = labelize(postType) ?? "";
+    if (postType === QUESTIONNAIRE) {
+      title = REFLECTION;
+    }
     const kebabItems = [
       {
         label: i18n.t("global.viewOnWeb"),
@@ -59,6 +72,10 @@ const ListScreen = ({ navigation, route }) => {
       {
         label: i18n.t("global.documentation"),
         url: `https://disciple.tools/user-docs/disciple-tools-mobile-app/how-to-use/list-screens/#${postType}-screen`,
+      },
+      {
+        label: ARROW_DEFINITIONS,
+        showArrowDefinitions: true,
       },
     ];
     navigation.setOptions({
@@ -102,9 +119,11 @@ const ListScreen = ({ navigation, route }) => {
           onRefresh={onRefresh}
           //leftOpenValue={Constants.SWIPE_BTN_WIDTH * Constants.NUM_SWIPE_BUTTONS_LEFT}
           //rightOpenValue={Constants.SWIPE_BTN_WIDTH * Constants.NUM_SWIPE_BUTTONS_RIGHT}
+          role={role}
         />
       </View>
-      <ListFAB />
+      {postType === TypeConstants.CONTACT ? <ListFAB /> : <GroupAndCustomFAB />}
+      {/* <ListFAB /> */}
     </>
   );
 };

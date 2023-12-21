@@ -1,4 +1,4 @@
-import { Image, Pressable, Text, View } from "react-native";
+import { Image, Pressable, Text, View, Keyboard } from "react-native";
 
 import { CheckIcon } from "components/Icon";
 import FilterList from "components/FilterList";
@@ -25,6 +25,7 @@ const ConnectionSheet = ({
   const { styles, globalStyles } = useStyles(localStyles);
   const { dismiss } = useBottomSheetModal();
   const { search, onSearch } = useFilter();
+  Keyboard.dismiss();
 
   // exclude currently selected values from options list
   const exclude = values?.map((item) => item?.ID);
@@ -54,7 +55,7 @@ const ConnectionSheet = ({
           key={ID}
           style={[globalStyles.rowContainer, styles.itemContainer]}
         >
-          <StatusBorder fields={fields} item={item} />
+          {/* <StatusBorder fields={fields} item={item} /> */}
           {avatar && <Image style={styles.avatar} source={{ uri: avatar }} />}
           <View style={styles.textContainer}>
             <Text>

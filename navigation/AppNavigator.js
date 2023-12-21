@@ -10,6 +10,7 @@ import { navigationRef } from "./RootNavigation";
 import LaunchScreen from "screens/LaunchScreen";
 import PINScreen from "screens/PINScreen";
 import LoginScreen from "screens/LoginScreen";
+import ValidateOtpScreen from "screens/ValidateOtpScreen";
 //import TabNavigator from "./TabNavigator";
 
 import usePIN from "hooks/use-pin";
@@ -54,6 +55,7 @@ const AppNavigator = () => {
           // when logging out, a pop animation feels intuitive
           //options={{ animationTypeForReplace: authenticated ? 'push' : 'pop' } }
         />
+        <Stack.Screen name="ValidateOtp" component={ValidateOtpScreen} />
       </Stack.Navigator>
     );
   };

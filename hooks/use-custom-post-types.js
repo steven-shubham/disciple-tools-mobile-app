@@ -1,11 +1,20 @@
 import useSettings from "hooks/use-settings";
+import useMyUser from "hooks/use-my-user";
 
 import { TypeConstants } from "constants";
+import { REGISTERED } from "constants";
 
 // TODO: merge into use-types?
 const useCustomPostTypes = () => {
   const { settings } = useSettings();
+  const { data: userData } = useMyUser();
+
   if (!settings?.post_types) return null;
+
+  let role = Object.values(userData?.profile?.roles ?? {})?.[0] ?? "";
+  if (role === REGISTERED) {
+    return null;
+  }
 
   const mapPostTypes = (postTypes) => {
     if (Array.isArray(postTypes)) return postTypes;

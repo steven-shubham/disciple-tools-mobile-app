@@ -6,6 +6,7 @@ export const AUTH_SET_HAS_PIN = "AUTH_SET_HAS_PIN";
 export const AUTH_SET_CNONCE_PIN = "AUTH_SET_CNONCE_PIN";
 export const AUTH_SET_FORM_FIELD = "AUTH_SET_FORM_FIELD";
 export const AUTH_CLEAR_FORM_FIELDS = "AUTH_CLEAR_FORM_FIELDS";
+export const TOGGLE_DISTRESS = "TOGGLE_DISTRESS";
 
 export function toggleAutoLogin() {
   return { type: AUTH_TOGGLE_AUTO_LOGIN };
@@ -33,4 +34,8 @@ export function setFormField({ key, value }) {
 
 export function clearFormFields() {
   return { type: AUTH_CLEAR_FORM_FIELDS };
+}
+
+export function toggleDistress() {
+  return { type: TOGGLE_DISTRESS };
 }

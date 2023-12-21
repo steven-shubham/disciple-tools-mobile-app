@@ -1,5 +1,5 @@
 import React from "react";
-import { Pressable, Text, View } from "react-native";
+import { Pressable, Text, View, Keyboard } from "react-native";
 
 import { MaterialCommunityIcon, CheckIcon } from "components/Icon";
 import FilterList from "components/FilterList";
@@ -15,7 +15,7 @@ const LocationsSheet = ({ selectedItems, onChange, modalName }) => {
   const { styles, globalStyles } = useStyles(localStyles);
   const { dismiss } = useBottomSheetModal();
   const { search, onSearch } = useFilter();
-
+  Keyboard.dismiss();
   // exclude currently selected items from options list
   const exclude = selectedItems?.map((item) => item?.id);
 

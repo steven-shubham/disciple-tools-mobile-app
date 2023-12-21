@@ -39,6 +39,7 @@ import { parseDateSafe, decodeHTMLEntities } from "utils";
 import { ScreenConstants } from "constants";
 
 import { localStyles } from "./CommentsActivityScreen.styles";
+import { ARROW_DEFINITIONS } from "constants";
 
 //const MENTION_PATTERN = /@\[.+?\]\((.*)\)/g;
 const MENTION_PATTERN = /@\[\w* \w* \(\w*\)\]\(\.?\w*\)*/g;
@@ -476,6 +477,7 @@ const CommentsActivityScreen = ({ navigation, route }) => {
   //const [expanded, setExpanded] = useState(false);
 
   const { defaultFilter, filter, onFilter, search, onSearch } = useFilter();
+  // console.log("--CommentsActivityScreen filter--", filter);
 
   const {
     cacheKey,
@@ -510,6 +512,10 @@ const CommentsActivityScreen = ({ navigation, route }) => {
       {
         label: i18n.t("global.documentation"),
         url: `https://disciple.tools/user-docs/disciple-tools-mobile-app/how-to-use/record-screens/#${postType}-screen`,
+      },
+      {
+        label: ARROW_DEFINITIONS,
+        showArrowDefinitions: true,
       },
     ];
     navigation.setOptions({
@@ -547,6 +553,7 @@ const CommentsActivityScreen = ({ navigation, route }) => {
       <FilterList
         display
         //sortable
+        postId={route?.params?.id}
         items={_items}
         renderItem={renderItem}
         search={search}

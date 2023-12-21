@@ -7,6 +7,9 @@ import SelectSheet from "./SelectSheet";
 import { useBottomSheetModal } from "@gorhom/bottom-sheet";
 import useList from "hooks/use-list";
 import useStyles from "hooks/use-styles";
+import useNotifications from "hooks/use-notifications";
+import useCommentsActivities from "hooks/use-comments-activity";
+import useType from "hooks/use-type.js";
 
 import { localStyles } from "./FilterSheet.styles";
 
@@ -17,9 +20,14 @@ const FilterSheet = ({
   selectedFilter,
   onFilter,
   modalName,
+  postId,
 }) => {
   const { styles, globalStyles } = useStyles(localStyles);
   const { dismiss } = useBottomSheetModal();
+  const { isNotification, isCommentsActivity } = useType({});
+
+  // console.log("--FilterSheet isCommentsActivity--", isCommentsActivity);
+  // console.log("--FilterSheet filters--", filters);
 
   const onChange = (selectedFilter) => {
     if (onFilter) onFilter(selectedFilter);
@@ -28,6 +36,17 @@ const FilterSheet = ({
 
   const Count = ({ filter }) => {
     const { data: items } = useList({ filter });
+    return items?.length ?? null;
+  };
+
+  const NotificationCount = ({ filter }) => {
+    const { data: items } = useNotifications({ filter });
+    return items?.length ?? null;
+  };
+
+  const CommentsActivityCount = ({ filter }) => {
+    const { data: items } = useCommentsActivities({ filter, postId });
+    console.log("--CommentsActivityCount items?.length--", items?.length);
     return items?.length ?? null;
   };
 
@@ -46,7 +65,22 @@ const FilterSheet = ({
         <View style={styles.itemSubFilterContainer(subfilter)}>
           <Text style={styles.itemText}>
             {name} {"("}
-            <Count filter={item} />
+            {/* {isNotification ? (
+              <NotificationCount filter={item} />
+            ) : (
+              // <CommentsActivityCount filter={item} />
+              <Count filter={item} />
+            )} */}
+            {(() => {
+              if (isNotification) {
+                return <NotificationCount filter={item} />;
+              } else if (isCommentsActivity) {
+                // return <CommentsActivityCount filter={item} />;
+                return <Count filter={item} />;
+              } else {
+                return <Count filter={item} />;
+              }
+            })()}
             {")"}
           </Text>
         </View>

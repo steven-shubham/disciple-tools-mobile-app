@@ -42,7 +42,7 @@ const TagsFieldEdit = ({
   onChange,
 }) => {
   const { styles } = useStyles(localStyles);
-
+  // console.log("--TagsFieldEdit values--", values);
   const { cache, mutate } = useCache();
   const { updatePost } = useAPI();
 
@@ -63,6 +63,9 @@ const TagsFieldEdit = ({
   };
 
   const _onChange = async (newValue) => {
+    // console.log("--newValue--", newValue);
+    // console.log("--values--", values);
+
     const exists = values?.some((item) => item === newValue);
     if (exists) {
       _onRemove(newValue);
@@ -122,8 +125,16 @@ const TagsFieldEdit = ({
   );
 };
 
-const TagsField = ({ editing, cacheKey, fieldKey, field, value, onChange }) => {
+const TagsField = ({
+  editing,
+  cacheKey,
+  fieldKey,
+  field,
+  value = [],
+  onChange,
+}) => {
   const [_values, _setValues] = useState(value);
+  // console.log("--TagsField value--", value);
 
   if (editing) {
     return (

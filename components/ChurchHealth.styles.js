@@ -6,6 +6,7 @@ const CHURCH_CIRCLE_SIZE = 325;
 export const localStyles = ({ theme, isRTL, isIOS }) => ({
   container: {
     padding: 10,
+    backgroundColor: theme.mode === ThemeConstants.DARK ? "#707070" : null,
   },
   gridBox: {
     height: 40,
@@ -40,7 +41,8 @@ export const localStyles = ({ theme, isRTL, isIOS }) => ({
         : theme.brand.primary,
   },
   listItem: {
-    backgroundColor: theme.background.primary,
+    backgroundColor: theme.mode === ThemeConstants.DARK ? "#707070" : null,
+    borderBottomWidth: 0,
   },
   baptismMainContainer: {
     flexDirection: "row",
@@ -58,9 +60,6 @@ export const localStyles = ({ theme, isRTL, isIOS }) => ({
     width: 50,
   },
   churchCommitmentSwitch: {
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "flex-end",
+    marginLeft: 10,
   },
 });

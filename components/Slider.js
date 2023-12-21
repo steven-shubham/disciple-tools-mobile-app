@@ -19,10 +19,12 @@ const Slider = ({ value, onValueChange }) => {
     tempShowSlider = true;
     tempSliderDisplayValue = value?.influence;
   }
+  // console.log("--Slider value--", value);
+  // console.log("--tempShowSlider--", tempShowSlider);
 
   const [showSlider, setShowSlider] = useState(tempShowSlider);
   const [sliderDisplayValue, setSliderDisplayValue] = useState(
-    tempSliderDisplayValue
+    parseInt(tempSliderDisplayValue)
   );
   const [switchToggled, setSwitchToggled] = useState(false);
 
@@ -34,6 +36,7 @@ const Slider = ({ value, onValueChange }) => {
   };
 
   useEffect(() => {
+    // console.log("--showSlider--", showSlider);
     if (showSlider === false && switchToggled === true) {
       onValueChange({ influence: null, influence_slider: false });
     } else if (showSlider === true && switchToggled === true) {
@@ -41,6 +44,9 @@ const Slider = ({ value, onValueChange }) => {
     }
   }, [showSlider, switchToggled]);
 
+  useEffect(() => {
+    // console.log("--useEffect showSlider--", showSlider);
+  }, [showSlider]);
   return (
     <View style={styles.container}>
       <View style={{ ...globalStyles.rowContainer, alignItems: "center" }}>

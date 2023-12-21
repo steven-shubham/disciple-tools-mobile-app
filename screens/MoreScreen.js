@@ -13,16 +13,26 @@ import useSettings from "hooks/use-settings";
 import useI18N from "hooks/use-i18n";
 import useStyles from "hooks/use-styles";
 
-import { ScreenConstants } from "constants";
+import {
+  ScreenConstants,
+  ARROW_DEFINITIONS,
+  QUESTIONNAIRE,
+  REFLECTION,
+} from "constants";
 
 //import { localStyles } from "./MoreScreen.styles";
 
 const PostButton = ({ type }) => {
+  // console.log("--type--", type);
   const navigation = useNavigation();
   const { globalStyles } = useStyles();
   const { settings } = useSettings({ type });
   if (!settings?.post_types?.[type]?.label_plural) return null;
-  const label = settings.post_types[type].label_plural;
+  let label = settings.post_types[type].label_plural;
+
+  if (type === QUESTIONNAIRE) {
+    label = REFLECTION;
+  }
   return (
     <ListItem
       startComponent={<PostIcon />}
@@ -43,6 +53,7 @@ const MoreScreen = ({ navigation }) => {
   const { globalStyles } = useStyles();
   const { i18n } = useI18N();
 
+  // console.log("--customPostTypes--", customPostTypes);
   useLayoutEffect(() => {
     const kebabItems = [
       {
@@ -52,6 +63,10 @@ const MoreScreen = ({ navigation }) => {
       {
         label: i18n.t("global.documentation"),
         url: `https://disciple.tools/user-docs/disciple-tools-mobile-app/how-to-use/more-screen/`,
+      },
+      {
+        label: ARROW_DEFINITIONS,
+        showArrowDefinitions: true,
       },
     ];
     navigation.setOptions({

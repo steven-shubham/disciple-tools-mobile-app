@@ -11,6 +11,7 @@ import {
 const useType = ({ type, subtype } = {}) => {
   const route = RootNavigation.getRoute();
   if (!type) type = route?.params?.type;
+  // console.log("--useType type--", type);
   if (!subtype) subtype = route?.params?.subtype;
 
   const isList = route?.name === ScreenConstants.LIST;
@@ -34,6 +35,7 @@ const useType = ({ type, subtype } = {}) => {
   const postType = () => {
     if (isContact) return TypeConstants.CONTACT;
     if (isGroup) return TypeConstants.GROUP;
+    if (isNotification) return TypeConstants.NOTIFICATION;
     if (isCustomPostType) return type;
     return null;
   };

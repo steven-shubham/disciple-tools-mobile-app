@@ -9,7 +9,7 @@ import useNetwork from "hooks/use-network";
 import useType from "hooks/use-type";
 import { useNavigation, TabActions } from "@react-navigation/native";
 
-import { ScreenConstants } from "constants";
+import { ScreenConstants, TabScreenConstants } from "constants";
 
 import { isEmpty } from "helpers";
 
@@ -31,6 +31,14 @@ const usePushNotifications = () => {
 
   const registerForPushNotificationsAsync = async () => {
     let token;
+    if (isAndroid) {
+      Notifications.setNotificationChannelAsync("default", {
+        name: "default",
+        importance: Notifications.AndroidImportance.MAX,
+        vibrationPattern: [0, 250, 250, 250],
+        lightColor: "#FF231F7C",
+      });
+    }
     if (isDevice) {
       const { status: existingStatus } =
         await Notifications.getPermissionsAsync();
@@ -58,15 +66,7 @@ const usePushNotifications = () => {
         },
       });
     } else {
-      Alert.alert("Must use physical device for Push Notifications");
-    }
-    if (isAndroid) {
-      Notifications.setNotificationChannelAsync("default", {
-        name: "default",
-        importance: Notifications.AndroidImportance.MAX,
-        vibrationPattern: [0, 250, 250, 250],
-        lightColor: "#FF231F7C",
-      });
+      // Alert.alert("Must use physical device for Push Notifications");
     }
     return token;
   };
@@ -88,11 +88,20 @@ const usePushNotifications = () => {
       const id = data?.id ?? "";
       const type = data?.type ?? "";
       const tabScreen = getTabScreenFromType(type);
-      const jumpToAction = TabActions.jumpTo(tabScreen, {
-        screen: ScreenConstants.DETAILS,
-        id,
-        type,
-      });
+
+      let jumpToAction;
+      if (tabScreen === TabScreenConstants.MORE) {
+        jumpToAction = TabActions.jumpTo(tabScreen, {
+          screen: ScreenConstants.CREATE,
+          type,
+        });
+      } else {
+        jumpToAction = TabActions.jumpTo(tabScreen, {
+          screen: ScreenConstants.DETAILS,
+          id,
+          type,
+        });
+      }
       navigation.dispatch(jumpToAction);
     }
   }, [lastNotificationResponse]);
@@ -104,7 +113,6 @@ const usePushNotifications = () => {
     return;
   }, [isConnected]);
 
-  /*
   useEffect(() => {
     // This listener is fired whenever a notification is received while the app is foregrounded
     notificationListener.current =
@@ -118,6 +126,5 @@ const usePushNotifications = () => {
       );
     };
   }, []);
-  */
 };
 export default usePushNotifications;

@@ -38,8 +38,20 @@ const Field = ({
   const { styles, globalStyles } = useStyles(localStyles);
 
   let value = null;
+  // console.log("--fieldKey--", fieldKey);
   try {
-    value = post[fieldKey];
+    if (fieldKey === FieldNames.INFLUENCE_SLIDER) return null;
+    if (fieldKey === FieldNames.INFLUENCE) {
+      // console.log("--post-", post);
+      value = {
+        [fieldKey]: post[fieldKey] ?? null,
+        [FieldNames.INFLUENCE_SLIDER]:
+          post[FieldNames.INFLUENCE_SLIDER] ?? null,
+      };
+      // console.log("--value--", value);
+    } else {
+      value = post[fieldKey];
+    }
   } catch (error) {}
 
   const [_loading, _setLoading] = useState(false);
@@ -273,7 +285,7 @@ const Field = ({
         <View>
           <FieldIcon field={field} />
         </View>
-        <View>
+        <View style={{ marginRight: 30 }}>
           <Text style={styles.fieldLabelText}>{label}</Text>
         </View>
         <View style={styles.fieldControls}>

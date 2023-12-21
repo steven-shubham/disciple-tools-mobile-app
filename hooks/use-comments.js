@@ -5,9 +5,10 @@ import useRequest from "hooks/use-request";
 import { getCommentsURL } from "helpers/urls";
 import { searchObjList } from "utils";
 
-const useComments = ({ search, filter, exclude }) => {
+const useComments = ({ search, filter, exclude, postId: id }) => {
+  // console.log("--useComments id--", id);
   const { isPost, postType } = useType();
-  const postId = useId();
+  const postId = id ?? useId();
   const url = isPost ? getCommentsURL({ postType, postId }) : null;
   const request = {
     url,

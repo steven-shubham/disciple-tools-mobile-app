@@ -14,12 +14,15 @@ import useType from "hooks/use-type";
 import { localStyles } from "./TagsSheet.styles";
 
 const TagsSheet = ({ values, onChange, modalName }) => {
+  // console.log("--TagsSheet values--", values);
   const { styles, globalStyles } = useStyles(localStyles);
   const { i18n } = useI18N();
 
   const { dismiss } = useBottomSheetModal();
 
   const { search, onSearch } = useFilter();
+
+  // console.log("--search--", search);
 
   // exclude currently selected values from options list
   let exclude = values ? [...values] : [];
@@ -30,6 +33,8 @@ const TagsSheet = ({ values, onChange, modalName }) => {
   if (!items) return null;
 
   const _onChange = (newValue) => {
+    // console.log("--_onChange newValue--", newValue);
+    // return;
     onChange(newValue);
     dismiss(modalName);
   };
@@ -64,6 +69,9 @@ const TagsSheet = ({ values, onChange, modalName }) => {
       placeholder={i18n.t("global.placeholder", { items: placeholderItems })}
       search={search}
       onSearch={onSearch}
+      isTagField={true}
+      selectedTags={values}
+      _onChange={_onChange}
     />
   );
 };

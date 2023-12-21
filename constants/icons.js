@@ -1,4 +1,4 @@
-export { default as dtIcon } from "assets/dt-icon.png";
+export { default as dtIcon } from "assets/arw-icon.png";
 export { default as hasBibleIcon } from "assets/icons/book-bookmark.png";
 // Contact-specific
 export { default as readingBibleIcon } from "assets/icons/word.png";

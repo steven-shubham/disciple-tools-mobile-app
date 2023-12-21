@@ -1,5 +1,11 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { Pressable, View, useWindowDimensions } from "react-native";
+import {
+  Pressable,
+  View,
+  useWindowDimensions,
+  Modal,
+  ActivityIndicator,
+} from "react-native";
 
 import { TabView, TabBar } from "react-native-tab-view";
 
@@ -46,6 +52,7 @@ import {
 
 import { localStyles } from "./DetailsScreen.styles";
 import { FieldNames } from "constants";
+import { ARROW_DEFINITIONS } from "constants";
 
 // expects fields in Object.entries(...) format
 const filterPostFields = ({ fields, post }) =>
@@ -69,6 +76,14 @@ const DetailsScreen = ({ navigation, route }) => {
     mutate,
   } = useDetails();
 
+  // console.log("--post--", post);
+  // console.log(
+  //   "--post?.baptized_count, post?.baptized_member_count--",
+  //   post?.baptized_count,
+  //   "  ",
+  //   post?.baptized_member_count
+  // );
+
   const postType = post?.post_type;
   const postId = post?.ID;
   const postName = route?.params?.name || post?.name || "";
@@ -76,6 +91,7 @@ const DetailsScreen = ({ navigation, route }) => {
   const [isFavorite, setIsFavorite] = useState(
     favoriteValue === true || favoriteValue === "1"
   );
+  const [showActivityIndicator, setShowActivityIndicator] = useState(true);
 
   const { data: shareData } = useShares(
     post ? getSharesURL({ postType, postId }) : null
@@ -112,6 +128,17 @@ const DetailsScreen = ({ navigation, route }) => {
     }
   }, [favoriteValue]);
 
+  useEffect(() => {
+    const timeOut = setTimeout(() => {
+      setShowActivityIndicator(false);
+    }, 3000);
+
+    return () => {
+      clearTimeout(timeOut);
+      setShowActivityIndicator(false);
+    };
+  }, []);
+
   useLayoutEffect(() => {
     const kebabItems = [
       {
@@ -121,6 +148,10 @@ const DetailsScreen = ({ navigation, route }) => {
       {
         label: i18n.t("global.documentation"),
         url: `https://disciple.tools/user-docs/disciple-tools-mobile-app/how-to-use/record-screens/#${postType}-screen`,
+      },
+      {
+        label: ARROW_DEFINITIONS,
+        showArrowDefinitions: true,
       },
     ];
     navigation.setOptions({
@@ -152,7 +183,7 @@ const DetailsScreen = ({ navigation, route }) => {
               <View style={globalStyles.headerIcon}>
                 <CommentActivityIcon
                   onPress={() => {
-                    navigation.push(ScreenConstants.COMMENTS_ACTIVITY, {
+                    navigation.navigate(ScreenConstants.COMMENTS_ACTIVITY, {
                       post: { ...post },
                       id: postId,
                       name: postName,
@@ -186,7 +217,23 @@ const DetailsScreen = ({ navigation, route }) => {
 
   if (!settings || isLoading || !postType) return <PostSkeleton />;
 
-  const fields = settings?.post_types?.[postType]?.fields;
+  let fields = settings?.post_types?.[postType]?.fields;
+
+  if (postType === TypeConstants.GROUP) {
+    fields = {
+      ...fields,
+      influence: { ...fields?.influence, tile: TileNames.OTHER },
+      influence_slider: { ...fields?.influence_slider, tile: TileNames.OTHER },
+      partner_involvement: {
+        ...fields?.partner_involvement,
+        tile: TileNames.OTHER,
+      },
+      least_reached_category: {
+        ...fields?.least_reached_category,
+        tile: TileNames.OTHER,
+      },
+    };
+  }
 
   // TODO: open a bug report with API?
   /*
@@ -217,13 +264,22 @@ const DetailsScreen = ({ navigation, route }) => {
   // filter fields where tile property does not exist
   const fieldEntries = Object.entries(fields || {});
 
-  const tiles = settings?.post_types?.[postType]?.tiles;
+  let tiles = settings?.post_types?.[postType]?.tiles;
+  if (postType !== "questionnaire") {
+    tiles = {
+      ...tiles,
+      other: { ...tiles?.other, tile_priority: 25 },
+    };
+  }
+
   const tileEntries = Object.entries(tiles || {});
 
   // sort tiles by tile_priority
   const sortedTileEntries = [...tileEntries].sort(
     (a, b) => a[1]?.tile_priority - b[1]?.tile_priority
   );
+
+  // console.log("--sortedTileEntries--", sortedTileEntries);
 
   // tab view component routes
   const routes = sortedTileEntries.map(([key, val]) => ({
@@ -256,9 +312,25 @@ const DetailsScreen = ({ navigation, route }) => {
     <>
       <OfflineBar />
       <TitleBar center title={postName} style={styles.titleBar} />
+      <Modal
+        animationType="none"
+        transparent={true}
+        visible={showActivityIndicator}
+      >
+        <View
+          style={{
+            alignItems: "center",
+            justifyContent: "center",
+            flex: 1,
+          }}
+        >
+          <ActivityIndicator size="large" />
+        </View>
+      </Modal>
+
       <TabView
-        //lazy
-        //renderLazyPlaceholder={() => <PostSkeleton />}
+        // lazy
+        // renderLazyPlaceholder={() => <PostSkeleton />}
         keyboardDismissMode="auto"
         navigationState={{ index, routes }}
         renderScene={renderScene}

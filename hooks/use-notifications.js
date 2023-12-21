@@ -6,6 +6,7 @@ import useRequest from "hooks/use-request";
 
 import { NotificationsRequest } from "constants/urls";
 import { searchObjList } from "utils";
+import { REGISTERED } from "constants";
 
 const useNotifications = ({ search, filter, exclude, offset, limit } = {}) => {
   const {
@@ -15,6 +16,7 @@ const useNotifications = ({ search, filter, exclude, offset, limit } = {}) => {
   } = useAPI();
   const { data: userData } = useMyUser();
   const userId = userData?.ID;
+  let role = Object.values(userData?.profile?.roles ?? {})?.[0] ?? "";
 
   const markAllViewed = useCallback(() => {
     if (!userId) return;
@@ -55,7 +57,12 @@ const useNotifications = ({ search, filter, exclude, offset, limit } = {}) => {
   filtered = [...filteredNew, ...filteredRead];
 
   // NOTE: do not memoize or it will cause not render badge properly
-  const hasNotifications = filteredNew?.length > 0;
+  let hasNotifications = filteredNew?.length > 0;
+
+  if (role === REGISTERED) {
+    filtered = [];
+    hasNotifications = false;
+  }
 
   return {
     data: filtered,

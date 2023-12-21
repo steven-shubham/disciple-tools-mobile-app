@@ -29,6 +29,7 @@ import {
 } from "constants";
 
 import { localStyles } from "./CreateScreen.styles";
+import { ARROW_DEFINITIONS } from "constants";
 
 const initialMapFieldsToPost = ({ fields, post, postType }) => {
   let initialPost = {};
@@ -132,6 +133,10 @@ const CreateScreen = ({ navigation, route }) => {
       {
         label: i18n.t("global.documentation"),
         url: `https://disciple.tools/user-docs/disciple-tools-mobile-app/how-to-use/add-new-screens/#${postType}-screen`,
+      },
+      {
+        label: ARROW_DEFINITIONS,
+        showArrowDefinitions: true,
       },
     ];
     navigation.setOptions({

@@ -21,6 +21,7 @@ import { ScreenConstants, TypeConstants } from "constants";
 import { truncate } from "utils";
 
 import { localStyles } from "./ImportContactsScreen.styles";
+import { ARROW_DEFINITIONS } from "constants";
 
 const SUBTITLE_THRESHOLD = 60;
 
@@ -48,6 +49,10 @@ const ImportContactsScreen = ({ navigation }) => {
       {
         label: i18n.t("global.documentation"),
         url: `https://disciple.tools/user-docs/disciple-tools-mobile-app/how-to-use/import-contact-screen/`,
+      },
+      {
+        label: ARROW_DEFINITIONS,
+        showArrowDefinitions: true,
       },
     ];
     navigation.setOptions({

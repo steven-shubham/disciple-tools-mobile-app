@@ -4,6 +4,7 @@ import {
   SafeAreaView,
   RefreshControl,
   View,
+  Text,
 } from "react-native";
 import { ScrollView, FlatList } from "react-native-gesture-handler";
 import { FlashList } from "@shopify/flash-list";
@@ -17,6 +18,8 @@ import useStyles from "hooks/use-styles";
 import Constants from "constants";
 
 import { localStyles } from "./FilterList.styles";
+import Button from "components/Button";
+import { REGISTERED } from "constants";
 
 const FilterList = ({
   isFlashList,
@@ -40,8 +43,14 @@ const FilterList = ({
   onRowDidClose,
   footer,
   style,
+  postId,
+  isTagField = false,
+  selectedTags = [],
+  _onChange = () => {},
+  role = "",
 }) => {
   const { styles, globalStyles } = useStyles(localStyles);
+  // console.log("--FilterList postId--", postId);
 
   const [_refreshing, _setRefreshing] = useState(refreshing ?? false);
 
@@ -64,12 +73,33 @@ const FilterList = ({
     }),
     []
   );
+  const TagFieldHandler = () => {
+    if (selectedTags.includes(search)) {
+      return (
+        <View style={styles.center}>
+          <Text>Tag "{search}" is already being used.</Text>
+        </View>
+      );
+    } else {
+      return (
+        <View style={{ width: "60%", alignSelf: "center" }}>
+          <Button
+            title={`Add new tag "${search}"`}
+            onPress={() => {
+              _onChange(search);
+            }}
+          />
+        </View>
+      );
+    }
+  };
 
   // TODO: actual skeleton component for post lists
   if (!items) return <SafeAreaView style={styles.container} />;
+  // console.log("--items, search--", items, search);
   return (
     <View style={[styles.container, style]}>
-      {onSearch && (
+      {onSearch && role !== REGISTERED && (
         <SearchBar
           sortable={sortable}
           search={search}
@@ -78,15 +108,31 @@ const FilterList = ({
           onFilter={onFilter}
         />
       )}
-      {onFilter && (
+      {onFilter && role !== REGISTERED && (
         <FilterBar
           display={display}
           items={items}
           defaultFilter={defaultFilter}
           filter={filter}
           onFilter={onFilter}
+          postId={postId}
         />
       )}
+      {/* <SearchBar
+        sortable={sortable}
+        search={search}
+        onSearch={onSearch}
+        filter={filter}
+        onFilter={onFilter}
+      />
+      <FilterBar
+        display={display}
+        items={items}
+        defaultFilter={defaultFilter}
+        filter={filter}
+        onFilter={onFilter}
+        postId={postId}
+      /> */}
       {isFlashList ? (
         <FlashList
           keyExtractor={keyExtractor}
@@ -106,7 +152,14 @@ const FilterList = ({
           keyExtractor={keyExtractor}
           data={items}
           renderItem={renderItem}
-          ListEmptyComponent={<Placeholder placeholder={placeholder} />}
+          ListEmptyComponent={() => {
+            // console.log("--FlatList--", items);
+            if (isTagField) {
+              return <TagFieldHandler />;
+            } else {
+              return <Placeholder placeholder={placeholder} />;
+            }
+          }}
           refreshControl={
             <RefreshControl refreshing={_refreshing} onRefresh={_onRefresh} />
           }

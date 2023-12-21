@@ -1,43 +1,48 @@
 {
   "expo": {
-    "owner": "discipletools",
-    "name": "D.T",
-    "slug": "discipletoolsapp",
+    "name": "Arrow App",
+    "slug": "arrowApp",
     "privacy": "public",
     "platforms": ["ios", "android"],
-    "version": "1.12.0",
+    "version": "1.0.2",
     "orientation": "portrait",
+    "owner": "arrow-app",
     "userInterfaceStyle": "automatic",
     "icon": "./assets/icon.png",
     "notification": {
-      "icon": "./assets/icon-status-bar.png"
+      "icon": "./assets/arw-icon-status-bar.png"
     },
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/arw-splash.png",
       "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/31c0aa05-d9f5-480a-9baa-2b68234dd801"
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "bundleIdentifier": "tools.disciple.app",
-      "supportsTablet": true
+      "bundleIdentifier": "app.myarrow",
+      "supportsTablet": true,
+      "buildNumber": "1.0.15"
     },
     "android": {
-      "package": "tools.disciple.app",
+      "package": "app.myarrow",
       "googleServicesFile": "./google-services.json",
       "softwareKeyboardLayoutMode": "pan",
-      "versionCode": 1120
+      "versionCode": 6
     },
     "description": "",
     "scheme": "tools.disciple.app",
     "extra": {
       "eas": {
-        "projectId": "f75352c0-f025-11e9-ad8e-75ff7ea50268"
+        "projectId": "31c0aa05-d9f5-480a-9baa-2b68234dd801"
       }
     },
-    "plugins": ["expo-localization"]
+    "plugins": ["expo-localization"],
+    "runtimeVersion": {
+      "policy": "appVersion"
+    }
   }
 }

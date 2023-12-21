@@ -12,7 +12,6 @@ import {
   toggleRememberLoginDetails as _toggleRememberLoginDetails,
   clearFormFields as _clearFormFields,
   setFormField,
-  setHasPIN,
 } from "store/actions/auth.actions";
 
 import useCache from "hooks/use-cache";
@@ -24,28 +23,7 @@ import axios from "services/axios";
 
 import jwt_decode from "jwt-decode";
 
-import {
-  AppConstants,
-  AuthConstants,
-  ErrorConstants,
-  PINConstants,
-} from "constants";
-
-import * as WebBrowser from "expo-web-browser";
-import {
-  makeRedirectUri,
-  useAuthRequest,
-  useAutoDiscovery,
-  exchangeCodeAsync,
-} from "expo-auth-session";
-import { Alert } from "react-native";
-
-const TENANT_ID = "1917185a-187d-415b-87e6-295e95df8a01";
-const CLIENT_ID = "9a83c1ef-d132-47b2-bf77-d42c465c949a";
-
-WebBrowser.maybeCompleteAuthSession();
-
-let uri = "tools.disciple.app://login";
+import { AppConstants, AuthConstants } from "constants";
 
 const AuthContext = createContext(null);
 
@@ -63,9 +41,9 @@ const useCustomAuth = () => {
   const [accessToken, setAccessToken] = useState(null);
   const [baseUrl, setBaseUrl] = useState(null);
   const [user, setUser] = useState(null);
-  const [o365domain, setO365domain] = useState(false);
 
   const dispatch = useDispatch();
+  console.log("--accessToken--", accessToken);
 
   const isAutoLogin = useSelector((state) => state?.authReducer?.isAutoLogin);
   const rememberLoginDetails = useSelector(
@@ -78,7 +56,7 @@ const useCustomAuth = () => {
   }, []);
 
   useEffect(() => {
-    // console.log("--user--", user);
+    console.log("--user--", user);
     if (!rememberLoginDetails) {
       clearFormFields();
     } else if (rememberLoginDetails && user) {
@@ -186,13 +164,10 @@ const useCustomAuth = () => {
   useEffect(() => {
     if (baseUrl && baseUrl !== axios.defaults.baseURL) {
       axios.defaults.baseURL = baseUrl;
-      // console.log("--baseUrl--", baseUrl);
+      console.log("--baseUrl--", baseUrl);
       //clearStorage();
       clearCache();
     }
-    // clearCache();
-    // console.log("--baseUrl OUT--", baseUrl);
-
     return;
   }, [baseUrl]);
 
@@ -266,127 +241,6 @@ const useCustomAuth = () => {
     [accessToken, baseUrl, user?.id]
   );
 
-  // FOR o365 LOG IN
-  const discovery = useAutoDiscovery(
-    `https://login.microsoftonline.com/${TENANT_ID}/v2.0`
-  );
-
-  // Request
-  const [request, response, promptAsync] = useAuthRequest(
-    {
-      clientId: CLIENT_ID,
-      scopes: ["openid", "profile", "email", "offline_access"],
-      redirectUri: uri,
-    },
-    discovery
-  );
-
-  useEffect(() => {
-    if (response !== null && response.type === "success") {
-      // console.log("--BEFORE exchangeCodeAsync--");
-      exchangeCodeAsync(
-        {
-          clientId: CLIENT_ID,
-          scopes: ["openid", "profile", "email", "offline_access"],
-          code: response.params.code,
-          redirectUri: uri,
-          extraParams: { code_verifier: request.codeVerifier },
-        },
-        discovery
-      )
-        .then((token) => {
-          // console.log("--token--", token);
-          // let decodedToken = jwt_decode(token.idToken);
-          // console.log("--token--", token);
-          // console.log("--decodedToken--", decodedToken);
-          //VALIDATE THE ACCESS TOKEN AT THE BACKEND.
-          validateAccessToken(token);
-        })
-        .catch((exchangeError) => {
-          // console.log("--exchangeError--", exchangeError);
-          // throw new Error(exchangeError);
-        });
-    }
-  }, [response]);
-
-  const validateAccessToken = async (token) => {
-    try {
-      const domain = o365domain;
-      const baseUrl = `${AppConstants.PROTOCOL}://${domain}/wp-json`;
-      const url = `${baseUrl}/jwt-auth/v1/token/o365validate`;
-
-      const res = await axios({
-        url,
-        method: "POST",
-        data: {
-          accessToken: token.accessToken,
-          refreshToken: token.refreshToken,
-          expiresIn: token.expiresIn,
-        },
-      });
-      if (res?.status === 200 && res?.data?.token) {
-        const accessToken = res.data.token;
-        const id = decodeToken(accessToken)?.data?.user?.id;
-        const user = {
-          id,
-          username: res.data?.user_email,
-          domain,
-          display_name: res.data?.user_display_name,
-          email: res.data?.user_email,
-          nicename: res.data?.user_nicename,
-          o365Login: true,
-        };
-        // set login cnonce
-        await setCNonce();
-        // set persisted storage values
-        await setPersistedAuth(accessToken, baseUrl, user);
-        // sync local locale with server
-        if (res.data?.locale) setLocale(res.data.locale);
-        // set in-memory provider value
-        // NOTE: order matters here (per hook ordering)!
-        setUser(user);
-        setBaseUrl(baseUrl);
-        setAccessToken(accessToken);
-        setAuthenticated(true);
-        return;
-      } else {
-        Alert.alert("An error occurred!", "Logging out from O365", [
-          {
-            text: "Ok",
-            onPress: async () =>
-              await WebBrowser.openAuthSessionAsync(
-                `https://login.windows.net/${TENANT_ID}/oauth2/logout`,
-                uri
-              ),
-          },
-        ]);
-        // alert("An error occurred!");
-      }
-    } catch (err) {
-      // console.log("--err--", err);
-      Alert.alert("An error occurred!", "Logging out from O365", [
-        {
-          text: "Ok",
-          onPress: async () =>
-            await WebBrowser.openAuthSessionAsync(
-              `https://login.windows.net/${TENANT_ID}/oauth2/logout`,
-              uri
-            ),
-        },
-      ]);
-      throw new Error(err);
-    }
-  };
-
-  const signInO365 = async (domain) => {
-    setO365domain(domain);
-    try {
-      await promptAsync();
-    } catch (error) {
-      throw new Error(error);
-    }
-  };
-
   // TODO: implement timeout
   const signIn = useCallback(async (domain, username, password) => {
     // TODO: handle offline
@@ -429,78 +283,10 @@ const useCustomAuth = () => {
         setAuthenticated(true);
         return;
       }
-      // NOTE: D.T returns a 200 response with HTML body on invalid login
-      if (!res?.data?.token) {
-        throw new Error(ErrorConstants.LOGIN_CREDENTIALS);
-      }
     } catch (error) {
-      /*
-       * NOTE: this may be any of the following errors:
-       * - invalid D.T instance
-       * - missing D.T mobile app plugin
-       * - user locked out
-       */
       throw new Error(error);
     }
   }, []);
-
-  const check2FaEnabled = async (domain, username, password) => {
-    try {
-      const baseUrl = `${AppConstants.PROTOCOL}://${domain}/wp-json`;
-      const url = `${baseUrl}/jwt-auth/v1/login/validate`;
-      const res = await axios({
-        url,
-        method: "POST",
-        data: {
-          username,
-          password,
-        },
-        validateStatus: function (status) {
-          return (
-            (status >= 200 && status < 300) || status == 403 || status == 401
-          ); // default (status >= 200 && status < 300)
-        },
-      });
-      // console.log("--check2FaEnabled--", res?.status);
-      if (res?.status === 200 && res?.data) {
-        return { ...res.data, baseUrl };
-      } else if (res?.status === 403 && res?.data) {
-        // TODO: Error message for locked accounts.
-        throw new Error(res?.data?.message);
-      } else {
-        // console.log("--else--");
-        throw new Error(ErrorConstants.LOGIN_CREDENTIALS);
-      }
-    } catch (error) {
-      console.log("--catch--", error);
-      throw new Error(error);
-    }
-  };
-
-  const validateOtp = async (domain, username, password, otp) => {
-    try {
-      const baseUrl = `${AppConstants.PROTOCOL}://${domain}/wp-json`;
-      const url = `${baseUrl}/jwt-auth/v1/login/validate-otp`;
-      const res = await axios({
-        url,
-        method: "POST",
-        data: {
-          username,
-          password,
-          authcode: otp,
-        },
-      });
-
-      if (res?.status === 200 && res?.data?.token) {
-        return { ...res.data, baseUrl };
-      } else {
-        // console.log("--res.data--", res?.data);
-        throw new Error(res?.data?.message);
-      }
-    } catch (error) {
-      throw new Error(error);
-    }
-  };
 
   // TODO: remove when switch to web-based OAuth2 login
   // used by ValidateOtpScreen
@@ -531,8 +317,6 @@ const useCustomAuth = () => {
     try {
       await deleteSecureItem(AuthConstants.ACCESS_TOKEN);
       await deleteSecureItem(AuthConstants.BASE_URL);
-      await deleteSecureItem(PINConstants.CODE);
-      dispatch(setHasPIN(false));
       //await deleteSecureItem(AuthConstants.USER);
       if (!rememberLoginDetails) await deleteSecureItem(AuthConstants.USER);
     } catch (error) {
@@ -541,18 +325,12 @@ const useCustomAuth = () => {
       // disable "auto login" and "remember login details" on signOut
       // if (isAutoLogin) toggleAutoLogin();
       // nullify in-memory auth provider values
-      if (user?.o365Login) {
-        await WebBrowser.openAuthSessionAsync(
-          `https://login.windows.net/${TENANT_ID}/oauth2/logout`,
-          uri
-        );
-      }
       if (!rememberLoginDetails) setUser(null);
       setBaseUrl(null);
       setAccessToken(null);
       setAuthenticated(false);
     }
-  }, [[user?.id, user?.o365Login]]);
+  }, []);
 
   return {
     authenticated,
@@ -566,10 +344,7 @@ const useCustomAuth = () => {
     toggleRememberLoginDetails,
     modifyUser,
     signIn,
-    check2FaEnabled,
-    validateOtp,
     signOut,
-    signInO365,
   };
 
   /*

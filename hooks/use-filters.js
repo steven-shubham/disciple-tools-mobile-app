@@ -22,12 +22,17 @@ const useFilters = ({ type } = {}) => {
   });
   const { i18n } = useI18N();
 
+  // console.log("--isPost--", isPost, "  ", postType);
   const url = isPost ? getFiltersURL({ postType }) : null;
+  // console.log("--useFilters url--", url);
+
   const request = {
     url,
     method: "GET",
   };
   let { data, error, isValidating, mutate } = useRequest({ request });
+
+  // console.log("--useFilters data--", data);
 
   if (isCommentsActivity)
     data = [
@@ -196,7 +201,7 @@ const useFilters = ({ type } = {}) => {
     return mappedCustomFilters;
   };
 
-  const filters = data?.filters?.length > 0 ? mapCustomFilters(data) : data;
+  let filters = data?.filters?.length > 0 ? mapCustomFilters(data) : data;
   return {
     data: filters,
     error,

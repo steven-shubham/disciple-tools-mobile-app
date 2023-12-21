@@ -62,6 +62,8 @@ const useAPI = ({ cacheKey } = {}) => {
     mutate,
     silent,
   }) => {
+    // console.log("--data updatePost--", data);
+    // return;
     if (!id) id = postId;
     if (!type) type = postType;
     let url = type && id ? `/dt-posts/v2/${type}/${id}` : null;
@@ -109,6 +111,18 @@ const useAPI = ({ cacheKey } = {}) => {
         method: HTTP.METHODS.POST,
         headers: HTTP.HEADERS.DEFAULT,
         data,
+      },
+    });
+  };
+
+  const getShareAppURLs = async () => {
+    const url = "jwt-auth/v1/appshare/links";
+
+    return request({
+      request: {
+        url,
+        method: HTTP.METHODS.GET,
+        headers: HTTP.HEADERS.DEFAULT,
       },
     });
   };
@@ -193,6 +207,7 @@ const useAPI = ({ cacheKey } = {}) => {
     markAllNotificationsViewed,
     markNotificationViewed,
     markNotificationUnread,
+    getShareAppURLs,
   };
 };
 export default useAPI;

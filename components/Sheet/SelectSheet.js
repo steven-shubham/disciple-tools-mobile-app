@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { Image, Pressable, View, Text } from "react-native";
+import { Image, Pressable, View, Text, Keyboard } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
 import { CheckIcon } from "components/Icon";
@@ -21,11 +21,11 @@ const SelectSheet = ({
 }) => {
   const { styles, globalStyles } = useStyles(localStyles);
   const { dismiss } = useBottomSheetModal();
-
+  Keyboard.dismiss();
   const [_sections, _setSections] = useState(sections);
-
+  // console.log("--SelectSheet--");
+  // console.log("--sections--", sections);
   const selectedCount = useRef(1);
-
   // TODO: prettier implementation
   const _onChange = (selectedItem) => {
     if (!multiple) {

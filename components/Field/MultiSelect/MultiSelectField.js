@@ -55,13 +55,15 @@ const MultiSelectFieldEdit = ({
 
   const _onRemove = async (newValue) => {
     // component state
-    const componentData = selectedItems.filter((item) => item?.key !== newValue?.key);
+    const componentData = selectedItems.filter(
+      (item) => item?.key !== newValue?.key
+    );
     setSelectedItems(componentData);
     // grouped/form state (if applicable)
     if (onChange) {
       onChange({ key: fieldKey, value: componentData });
       return;
-    };
+    }
     // in-memory cache (and persisted storage) state
     const cachedData = cache.get(cacheKey);
     const cachedDataModified = cachedData?.[fieldKey]?.filter(
@@ -91,7 +93,7 @@ const MultiSelectFieldEdit = ({
     if (onChange) {
       onChange({ key: fieldKey, value: componentData });
       return;
-    };
+    }
     // in-memory cache (and persisted storage) state
     const cachedData = cache.get(cacheKey);
     cachedData[fieldKey] = cachedData?.[fieldKey]
@@ -168,12 +170,12 @@ const MultiSelectField = ({
   onChange,
   sheetComponent,
 }) => {
-
   // check whether array contains objects
-  const valueContainsObjects = Array.isArray(value) && value?.length > 0 && typeof value[0] === 'object';
+  const valueContainsObjects =
+    Array.isArray(value) && value?.length > 0 && typeof value[0] === "object";
   if (valueContainsObjects) {
-    value = value.map(item => item?.key);
-  };
+    value = value.map((item) => item?.key);
+  }
 
   const items = Object.entries(field?.default).map(([key, val]) => ({
     key,

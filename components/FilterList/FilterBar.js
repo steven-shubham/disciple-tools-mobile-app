@@ -16,12 +16,21 @@ import { SortConstants } from "constants";
 
 import { localStyles } from "./FilterBar.styles";
 
-const FilterBar = ({ display, items, defaultFilter, filter, onFilter }) => {
+const FilterBar = ({
+  display,
+  items,
+  defaultFilter,
+  filter,
+  onFilter,
+  postId,
+}) => {
   const { styles, globalStyles } = useStyles(localStyles);
   const { i18n, numberFormat } = useI18N();
   const { isNotification, isCommentsActivity } = useType();
   const { data: filters } = useFilters();
   const { settings } = useSettings();
+  // console.log("--FilterBar filters--", filters);
+  // console.log("--FilterBar postId--", postId);
 
   // TODO: default to English in this way?
   const lastModifiedDateLabel =
@@ -93,6 +102,7 @@ const FilterBar = ({ display, items, defaultFilter, filter, onFilter }) => {
           filter={filter}
           filters={filters}
           onFilter={onFilter}
+          postId={postId}
         />
       </ScrollView>
       {display && (

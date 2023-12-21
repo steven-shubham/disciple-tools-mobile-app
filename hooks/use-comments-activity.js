@@ -2,8 +2,10 @@ import useComments from "hooks/use-comments";
 import useActivity from "hooks/use-activity";
 import useFilter from "hooks/use-filter";
 
-const useCommentsActivity = ({ search, filter, exclude }) => {
+const useCommentsActivity = ({ search, filter, exclude, postId }) => {
+  // console.log("--useCommentsActivity filter--", filter);
   const { filterByKey, sortByKey } = useFilter();
+  // console.log("--useCommentsActivity postId--", postId);
   let {
     cacheKey,
     data: comments,
@@ -11,13 +13,17 @@ const useCommentsActivity = ({ search, filter, exclude }) => {
     isLoading,
     isValidating,
     mutate,
-  } = useComments({ search, exclude });
+  } = useComments({ search, exclude, postId });
   const {
     data: activity,
     error: errorActivity,
     isLoading: isLoadingActivity,
     isValidating: isValidatingActivity,
-  } = useActivity({ search, filter, exclude });
+  } = useActivity({ search, filter, exclude, postId });
+
+  // console.log("--comments--", comments.length);
+  // console.log("--activity--", activity.length);
+
   if (isLoadingActivity || isLoading || !comments || !activity)
     return {
       data: [],

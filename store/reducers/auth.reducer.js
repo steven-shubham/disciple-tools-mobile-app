@@ -13,6 +13,7 @@ const initialState = {
   domain: "",
   username: "",
   password: "",
+  distressActivated: false,
 };
 
 export default function authReducer(state = initialState, action) {

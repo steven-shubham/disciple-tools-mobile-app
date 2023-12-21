@@ -12,4 +12,9 @@ export const localStyles = ({ theme, isRTL, isIOS }) => ({
     backgroundColor: theme.background.primary,
     height: "100%",
   },
+  center: {
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 10,
+  },
 });

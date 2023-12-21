@@ -1,17 +1,54 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Linking, View, Share } from "react-native";
 import { KebabIcon } from "components/Icon";
 import { Menu, MenuItem, MenuDivider } from "react-native-material-menu";
 
+import SheetHeader from "components/Sheet/SheetHeader";
+
 import useI18N from "hooks/use-i18n";
 import useStyles from "hooks/use-styles";
+import useBottomSheet from "hooks/use-bottom-sheet";
+import useAPI from "hooks/use-api";
+import useMyUser from "hooks/use-my-user";
 
 import axios from "services/axios";
+import { ARROW_DEFINITIONS } from "constants";
+import ArrowDefinitions from "./ArrowDefinitions/ArrowDefinitions";
+import { REGISTERED } from "constants";
 
 const KebabMenu = ({ items }) => {
   const { globalStyles } = useStyles();
   const { i18n } = useI18N();
   const [visible, setVisible] = useState(false);
+  const [shareAppUrls, setShareAppUrls] = useState({ ios: "", android: "" });
+  const { expand, collapse } = useBottomSheet();
+  const { data: userData } = useMyUser();
+
+  let role = Object.values(userData?.profile?.roles ?? {})?.[0] ?? "";
+
+  useEffect(() => {
+    async function fetchAppURLs() {
+      try {
+        const url = "jwt-auth/v1/appshare/links";
+        const response = await axios({
+          url,
+          method: "GET",
+        });
+
+        if (response?.status === 200) {
+          // console.log("--response?.data fetchAppURLs--", response?.data);
+          if (response?.data) {
+            setShareAppUrls(response?.data);
+          }
+        }
+      } catch (error) {
+        // console.log("--error--", error);
+      }
+    }
+
+    fetchAppURLs();
+  }, []);
+
   if (!items)
     items = [
       {
@@ -22,7 +59,30 @@ const KebabMenu = ({ items }) => {
         label: i18n.t("global.documentation"),
         url: `https://disciple.tools/user-docs/disciple-tools-mobile-app/how-to-use/`,
       },
+      {
+        label: ARROW_DEFINITIONS,
+        showArrowDefinitions: true,
+      },
     ];
+
+  const showSheet = (label = "") => {
+    expand({
+      renderHeader: () => (
+        <SheetHeader
+          expandable
+          dismissable
+          title={label}
+          onDismiss={collapse}
+        />
+      ),
+      renderFooter: () => null,
+      renderContent: () => <ArrowDefinitions />,
+    });
+  };
+
+  if (role === REGISTERED) {
+    return null;
+  }
   return (
     <Menu
       visible={visible}
@@ -46,12 +106,13 @@ const KebabMenu = ({ items }) => {
               onPress={async () => {
                 if (item?.callback) {
                   item.callback();
+                } else if (item?.showArrowDefinitions) {
+                  showSheet(item?.label);
                 } else if (item?.shareApp) {
                   try {
                     const result = await Share.share({
-                      title: "DT App link",
-                      message:
-                        "DT App link: https://disciple.tools/download-mobile-app/",
+                      title: "Arrow App link",
+                      message: `Arrow App link: iOS- ${shareAppUrls.ios} Android- ${shareAppUrls.android}`,
                     });
                     if (result.action === Share.sharedAction) {
                       if (result.activityType) {

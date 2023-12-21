@@ -29,7 +29,6 @@ const useList = ({
   const { postType } = useType({ type, subtype });
 
   let url = getListURL({ postType });
-
   /*
    * revalidate only if specified AND online (network is at least initializing)
    * otherwise use in-memory cached data

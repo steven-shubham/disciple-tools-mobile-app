@@ -12,7 +12,6 @@ import {
   toggleRememberLoginDetails as _toggleRememberLoginDetails,
   clearFormFields as _clearFormFields,
   setFormField,
-  setHasPIN,
 } from "store/actions/auth.actions";
 
 import useCache from "hooks/use-cache";
@@ -24,12 +23,7 @@ import axios from "services/axios";
 
 import jwt_decode from "jwt-decode";
 
-import {
-  AppConstants,
-  AuthConstants,
-  ErrorConstants,
-  PINConstants,
-} from "constants";
+import { AppConstants, AuthConstants } from "constants";
 
 import * as WebBrowser from "expo-web-browser";
 import {
@@ -283,7 +277,6 @@ const useCustomAuth = () => {
 
   useEffect(() => {
     if (response !== null && response.type === "success") {
-      // console.log("--BEFORE exchangeCodeAsync--");
       exchangeCodeAsync(
         {
           clientId: CLIENT_ID,
@@ -295,7 +288,6 @@ const useCustomAuth = () => {
         discovery
       )
         .then((token) => {
-          // console.log("--token--", token);
           // let decodedToken = jwt_decode(token.idToken);
           // console.log("--token--", token);
           // console.log("--decodedToken--", decodedToken);
@@ -303,8 +295,7 @@ const useCustomAuth = () => {
           validateAccessToken(token);
         })
         .catch((exchangeError) => {
-          // console.log("--exchangeError--", exchangeError);
-          // throw new Error(exchangeError);
+          throw new Error(exchangeError);
         });
     }
   }, [response]);
@@ -312,6 +303,7 @@ const useCustomAuth = () => {
   const validateAccessToken = async (token) => {
     try {
       const domain = o365domain;
+      // console.log("--validateAccessToken--");
       const baseUrl = `${AppConstants.PROTOCOL}://${domain}/wp-json`;
       const url = `${baseUrl}/jwt-auth/v1/token/o365validate`;
 
@@ -324,7 +316,9 @@ const useCustomAuth = () => {
           expiresIn: token.expiresIn,
         },
       });
+
       if (res?.status === 200 && res?.data?.token) {
+        // console.log("--res?.data--", res?.data);
         const accessToken = res.data.token;
         const id = decodeToken(accessToken)?.data?.user?.id;
         const user = {
@@ -363,17 +357,6 @@ const useCustomAuth = () => {
         // alert("An error occurred!");
       }
     } catch (err) {
-      // console.log("--err--", err);
-      Alert.alert("An error occurred!", "Logging out from O365", [
-        {
-          text: "Ok",
-          onPress: async () =>
-            await WebBrowser.openAuthSessionAsync(
-              `https://login.windows.net/${TENANT_ID}/oauth2/logout`,
-              uri
-            ),
-        },
-      ]);
       throw new Error(err);
     }
   };
@@ -402,6 +385,7 @@ const useCustomAuth = () => {
         },
       });
       if (res?.status === 200 && res?.data?.token) {
+        // console.log("--res?.data--", res?.data);
         const accessToken = res.data.token;
         const id = decodeToken(accessToken)?.data?.user?.id;
         const user = {
@@ -429,17 +413,7 @@ const useCustomAuth = () => {
         setAuthenticated(true);
         return;
       }
-      // NOTE: D.T returns a 200 response with HTML body on invalid login
-      if (!res?.data?.token) {
-        throw new Error(ErrorConstants.LOGIN_CREDENTIALS);
-      }
     } catch (error) {
-      /*
-       * NOTE: this may be any of the following errors:
-       * - invalid D.T instance
-       * - missing D.T mobile app plugin
-       * - user locked out
-       */
       throw new Error(error);
     }
   }, []);
@@ -455,25 +429,15 @@ const useCustomAuth = () => {
           username,
           password,
         },
-        validateStatus: function (status) {
-          return (
-            (status >= 200 && status < 300) || status == 403 || status == 401
-          ); // default (status >= 200 && status < 300)
-        },
       });
-      // console.log("--check2FaEnabled--", res?.status);
+
       if (res?.status === 200 && res?.data) {
         return { ...res.data, baseUrl };
-      } else if (res?.status === 403 && res?.data) {
-        // TODO: Error message for locked accounts.
-        throw new Error(res?.data?.message);
       } else {
-        // console.log("--else--");
-        throw new Error(ErrorConstants.LOGIN_CREDENTIALS);
+        throw new Error(res.data.status);
       }
     } catch (error) {
-      console.log("--catch--", error);
-      throw new Error(error);
+      throw new Error(error.response.data.message);
     }
   };
 
@@ -531,8 +495,6 @@ const useCustomAuth = () => {
     try {
       await deleteSecureItem(AuthConstants.ACCESS_TOKEN);
       await deleteSecureItem(AuthConstants.BASE_URL);
-      await deleteSecureItem(PINConstants.CODE);
-      dispatch(setHasPIN(false));
       //await deleteSecureItem(AuthConstants.USER);
       if (!rememberLoginDetails) await deleteSecureItem(AuthConstants.USER);
     } catch (error) {

@@ -1,3 +1,4 @@
+import "react-native-gesture-handler";
 import "./wdyr";
 import React, { useEffect } from "react";
 import { LogBox, Platform, StatusBar, Text } from "react-native";

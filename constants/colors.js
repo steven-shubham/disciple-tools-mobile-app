@@ -1,6 +1,6 @@
 // BRAND
-export const primaryBrand = "#365D86";
-export const secondaryBrand = "#a0ce4e";
+export const primaryBrand = "rgb(0,139,208)";
+export const secondaryBrand = "rgb(242, 148, 0)";
 export const tertiaryBrand = "#00897b";
 
 // COMMON
@@ -19,8 +19,8 @@ export const whatsapp = "#075E54";
 ////////////////////////////
 
 // D.T Brand - Dark Mode
-export const primaryDark = "#365D86";
-export const secondaryDark = "#a0ce4e";
+export const primaryDark = "rgb(0,139,208)";
+export const secondaryDark = "rgb(242, 148, 0)";
 export const tertiaryDark = "#00897b";
 export const backgroundDark = "#F3F3F3";
 export const errorDark = "#C70039";
@@ -56,8 +56,8 @@ export const systemBrownDark = "rgb(172, 142, 104)";
 ////////////////////////////
 
 // D.T Brand - Light Mode
-export const primaryLight = "#365D86";
-export const secondaryLight = "#a0ce4e";
+export const primaryLight = "rgb(0,139,208)";
+export const secondaryLight = "rgb(242, 148, 0)";
 export const tertiaryLight = "#00897b";
 export const backgroundLight = "#F3F3F3";
 export const errorLight = "#C70039";

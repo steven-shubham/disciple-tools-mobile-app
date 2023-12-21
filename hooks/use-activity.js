@@ -5,9 +5,10 @@ import useRequest from "hooks/use-request";
 import { getActivitiesURL } from "helpers/urls";
 import { searchObjList } from "utils";
 
-const useActivity = ({ search, filter, exclude }) => {
+const useActivity = ({ search, filter, exclude, postId: id }) => {
+  // console.log("--useActivity id--", id);
   const { isPost, postType } = useType();
-  const postId = useId();
+  const postId = id ?? useId();
   const url = isPost ? getActivitiesURL({ postType, postId }) : null;
   const request = {
     url,

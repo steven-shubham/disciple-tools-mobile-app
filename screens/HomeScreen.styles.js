@@ -1,6 +1,6 @@
 export const localStyles = ({ theme, isRTL, isIOS }) => ({
   container: {
-    paddingVertical: 20,
+    paddingVertical: 10,
   },
   cardRowContainer: {
     justifyContent: "space-evenly",

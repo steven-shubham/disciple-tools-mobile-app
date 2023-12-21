@@ -58,11 +58,11 @@ const useApp = () => {
 
   // Draft an email
   const toast = useToast();
-  const version = Constants.manifest.version;
+  const version = Constants.expoConfig.version;
   const draftNewSupportEmail = useCallback(({ to, subject, body } = {}) => {
     MailComposer.composeAsync({
-      recipients: to ?? ["appsupport@disciple.tools"],
-      subject: subject ?? `DT App Support: v${version}`,
+      recipients: to ?? ["admin@myarrow.app"],
+      subject: subject ?? `Arrow App Support: v${version}`,
       body: body ?? "",
     }).catch((error) => {
       toast(error.toString(), true);

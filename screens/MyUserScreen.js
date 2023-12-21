@@ -43,6 +43,8 @@ import {
 } from "constants";
 
 import { localStyles } from "./MyUserScreen.styles";
+import { ARROW_DEFINITIONS } from "constants";
+import { REGISTERED } from "constants";
 
 const HelpSupportButton = ({ label }) => {
   const { draftNewSupportEmail } = useApp();
@@ -119,33 +121,39 @@ const MyUserScreen = ({ navigation }) => {
         label: i18n.t("global.documentation"),
         url: `https://disciple.tools/user-docs/disciple-tools-mobile-app/how-to-use/settings-screen/`,
       },
+      {
+        label: ARROW_DEFINITIONS,
+        showArrowDefinitions: true,
+      },
     ];
-    navigation.setOptions({
-      title: i18n.t("global.user"),
-      headerRight: (props) => (
-        <HeaderRight
-          kebabItems={kebabItems}
-          renderStartIcons={() => (
-            <>
-              <Pressable
-                onPress={() => {
-                  navigation.push(ScreenConstants.COMMENTS_ACTIVITY, {
-                    id,
-                    name,
-                    type: TypeConstants.CONTACT,
-                    subtype: SubTypeConstants.COMMENTS_ACTIVITY,
-                  });
-                }}
-                style={styles.commentActivityIcon}
-              >
-                <CommentActivityIcon />
-              </Pressable>
-            </>
-          )}
-          props
-        />
-      ),
-    });
+    if (role !== REGISTERED) {
+      navigation.setOptions({
+        title: i18n.t("global.user"),
+        headerRight: (props) => (
+          <HeaderRight
+            kebabItems={kebabItems}
+            renderStartIcons={() => (
+              <>
+                <Pressable
+                  onPress={() => {
+                    navigation.push(ScreenConstants.COMMENTS_ACTIVITY, {
+                      id,
+                      name,
+                      type: TypeConstants.CONTACT,
+                      subtype: SubTypeConstants.COMMENTS_ACTIVITY,
+                    });
+                  }}
+                  style={styles.commentActivityIcon}
+                >
+                  <CommentActivityIcon />
+                </Pressable>
+              </>
+            )}
+            props
+          />
+        ),
+      });
+    }
   }, [i18n?.locale]);
 
   //const Header = () => null;

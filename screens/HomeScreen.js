@@ -18,6 +18,7 @@ import useI18N from "hooks/use-i18n";
 import useList from "hooks/use-list";
 import useStyles from "hooks/use-styles";
 import useType from "hooks/use-type";
+import useMyUser from "hooks/use-my-user";
 
 import {
   NotificationPermissionConstants,
@@ -30,6 +31,8 @@ import { getDefaultFavoritesFilter } from "helpers";
 //import { findFilterById } from "utils";
 
 import { localStyles } from "./HomeScreen.styles";
+import { ARROW_DEFINITIONS } from "constants";
+import { REGISTERED } from "constants";
 
 const FavoriteCard = ({ type }) => {
   const navigation = useNavigation();
@@ -66,6 +69,9 @@ const HomeScreen = ({ navigation }) => {
   const { isDevice } = useDevice();
 
   const [refreshing, setRefreshing] = useState(false);
+  const { data: userData } = useMyUser();
+
+  let role = Object.values(userData?.profile?.roles ?? {})?.[0] ?? "";
 
   const onRefresh = () => {
     setRefreshing(true);
@@ -103,6 +109,14 @@ const HomeScreen = ({ navigation }) => {
         label: "Share App",
         shareApp: true,
       },
+      {
+        label: ARROW_DEFINITIONS,
+        showArrowDefinitions: true,
+      },
+      {
+        label: "Settings",
+        urlPath: "settings",
+      },
     ];
     navigation.setOptions({
       title: "",
@@ -130,8 +144,15 @@ const HomeScreen = ({ navigation }) => {
           <FavoriteContactsCard />
           <FavoriteGroupsCard />
         </View>
-        <PendingContactsCard refreshing={refreshing} onRefresh={onRefresh} />
-        <ActivityLogCard preview={5} refreshing={refreshing} />
+        {role !== REGISTERED && (
+          <>
+            <PendingContactsCard
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+            />
+            <ActivityLogCard preview={5} refreshing={refreshing} />
+          </>
+        )}
       </ScrollView>
     </>
   );

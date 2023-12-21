@@ -1,3 +1,4 @@
+import React from "react";
 import { useNavigation } from "@react-navigation/native";
 
 import {
@@ -15,6 +16,7 @@ import useType from "hooks/use-type.js";
 import useDetails from "hooks/use-details";
 import useSettings from "hooks/use-settings";
 import useStyles from "hooks/use-styles";
+import useMyUser from "hooks/use-my-user";
 
 import {
   QuickActionButtonConstants,
@@ -23,12 +25,21 @@ import {
 } from "constants";
 
 import { localStyles } from "./FAB.styles";
+import { REGISTERED } from "constants";
 
 export const ListFAB = ({ offsetX, offsetY }) => {
   const navigation = useNavigation();
   const { styles, globalStyles } = useStyles(localStyles);
   const { i18n } = useI18N();
   const { isContact, postType, getTabScreenFromType } = useType();
+  const { data: userData } = useMyUser();
+
+  let role = Object.values(userData?.profile?.roles ?? {})?.[0] ?? "";
+
+  if (role === REGISTERED) {
+    return null;
+  }
+
   return (
     <ActionButton
       offsetX={offsetX}
@@ -98,6 +109,45 @@ export const ListFAB = ({ offsetX, offsetY }) => {
   );
 };
 
+export const GroupAndCustomFAB = ({ offsetX, offsetY }) => {
+  const navigation = useNavigation();
+  const { styles, globalStyles } = useStyles(localStyles);
+  const { isContact, postType, getTabScreenFromType } = useType();
+  const { data: userData } = useMyUser();
+
+  let role = Object.values(userData?.profile?.roles ?? {})?.[0] ?? "";
+
+  if (role === REGISTERED) {
+    return null;
+  }
+
+  return (
+    <ActionButton
+      offsetX={offsetX}
+      offsetY={offsetY}
+      buttonColor={globalStyles.buttonColor.backgroundColor}
+      shadowStyle={globalStyles.buttonShadow}
+      renderIcon={(active) => {
+        return <AddIcon style={styles.iconLg} />;
+      }}
+      degrees={0}
+      activeOpacity={0}
+      // TODO: style
+      bgColor="rgba(0,0,0,0.5)"
+      nativeFeedbackRippleColor="rgba(0,0,0,0)"
+      onPress={() => {
+        if (!isContact) {
+          const tabScreen = getTabScreenFromType(postType);
+          navigation.jumpTo(tabScreen, {
+            screen: ScreenConstants.CREATE,
+            type: postType,
+          });
+        }
+      }}
+    />
+  );
+};
+
 export const PostFAB = ({ offsetX, offsetY }) => {
   const navigation = useNavigation();
 
@@ -107,6 +157,9 @@ export const PostFAB = ({ offsetX, offsetY }) => {
 
   const { isList, isPost, isContact, postType, getTabScreenFromType } =
     useType();
+  const { data: userData } = useMyUser();
+
+  let role = Object.values(userData?.profile?.roles ?? {})?.[0] ?? "";
 
   const { data: post, error, isLoading } = useDetails();
   const { settings } = useSettings();
@@ -178,6 +231,11 @@ export const PostFAB = ({ offsetX, offsetY }) => {
       };
     return defaultIconConfig;
   };
+
+  if (role === REGISTERED) {
+    return null;
+  }
+
   return (
     <ActionButton
       offsetX={offsetX}

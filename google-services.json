@@ -1,34 +1,33 @@
 {
   "project_info": {
-    "project_number": "",
-    "firebase_url": "https://disciple-tools-app.firebaseio.com",
-    "project_id": "disciple-tools-app",
-    "storage_bucket": "disciple-tools-app.appspot.com"
+    "project_number": "1074033762785",
+    "project_id": "arrow-b2807",
+    "storage_bucket": "arrow-b2807.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "",
+        "mobilesdk_app_id": "1:1074033762785:android:a0a20deed60df4cfec32a0",
         "android_client_info": {
-          "package_name": "tools.disciple.app"
+          "package_name": "app.myarrow"
         }
       },
       "oauth_client": [
         {
-          "client_id": "",
+          "client_id": "1074033762785-c5u32tm9hluagshqibulhh5i8c3o91km.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": ""
+          "current_key": "AIzaSyDJESuo04YCcokGAOPKxEDRzx7yez_E65g"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "",
+              "client_id": "1074033762785-c5u32tm9hluagshqibulhh5i8c3o91km.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

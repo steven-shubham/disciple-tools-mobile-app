@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Image, Keyboard, Linking, ScrollView, View } from "react-native";
+import { Image, Keyboard, Linking, ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -28,16 +28,24 @@ const Header = React.memo(() => {
   return (
     <View style={styles.header}>
       <Image
-        source={require("assets/dt-icon.png")}
+        source={require("assets/arw-icon.png")}
         style={styles.welcomeImage}
       />
     </View>
   );
 });
 
-const LoginScreen = () => {
+const LoginScreen = ({ navigation }) => {
   const { styles, globalStyles } = useStyles(localStyles);
-  const { user, rememberLoginDetails, signIn, modifyUser } = useAuth();
+  const {
+    user,
+    rememberLoginDetails,
+    signIn,
+    signInO365,
+    check2FaEnabled,
+    persistUser,
+    modifyUser,
+  } = useAuth();
   const { i18n } = useI18N();
   const { mobileAppPlugin } = usePlugins();
   const toast = useToast();
@@ -49,6 +57,7 @@ const LoginScreen = () => {
   const passwordInput = useSelector((state) => state?.authReducer?.password);
 
   const [loading, setLoading] = useState(false);
+  const [loadingO365, setLoadingO365] = useState(false);
 
   const [state, setState] = useState({
     domainValidation: false,
@@ -85,7 +94,34 @@ const LoginScreen = () => {
           userValidation: false,
           passwordValidation: false,
         });
-        await signIn(cleanedDomain, usernameInput, passwordInput);
+        // await signIn(cleanedDomain, usernameInput, passwordInput);
+        // return;
+        let response = await check2FaEnabled(
+          cleanedDomain,
+          usernameInput,
+          passwordInput
+        );
+
+        // console.log("--response--", response);
+
+        if (response?.token) {
+          await persistUser(cleanedDomain, usernameInput, response);
+        } else if (
+          response?.provider === "email" ||
+          response?.provider === "totp"
+        ) {
+          // NAVIGATE TO ValidateOtp SCREEN, PASS Params
+          navigation.navigate("ValidateOtp", {
+            paramsData: {
+              domain: cleanedDomain,
+              username: usernameInput,
+              password: passwordInput,
+              userData: response,
+            },
+          });
+        } else {
+          throw new Error(response?.message);
+        }
       } catch (error) {
         if (error?.message?.includes(ErrorConstants.LOGIN_CREDENTIALS)) {
           toast(i18n.t("global.error.loginCredentials"), true);
@@ -103,6 +139,38 @@ const LoginScreen = () => {
         passwordValidation: passwordInput.length === 0,
       });
       setLoading(false);
+    }
+  };
+
+  const onLoginPressO365 = async () => {
+    Keyboard.dismiss();
+    if (domainInput.length > 0) {
+      const cleanedDomain = domainInput
+        ?.trim()
+        ?.replace("http://", "")
+        ?.replace("https://", "");
+      setLoadingO365(true);
+      try {
+        setState({
+          domainValidation: false,
+          userValidation: false,
+          passwordValidation: false,
+        });
+        await signInO365(cleanedDomain);
+      } catch (error) {
+        // toast(error.message, true);
+        toast(i18n.t("global.error.tryAgain"), true);
+      } finally {
+        setLoadingO365(false);
+      }
+    } else {
+      // if any of the required fields are not set, then update state to show error
+      setState({
+        ...state,
+        domainValidation: domainInput.length === 0,
+        userValidation: null,
+        passwordValidation: null,
+      });
     }
   };
 
@@ -184,8 +252,20 @@ const LoginScreen = () => {
             loading={loading}
             onPress={onLoginPress}
           />
+          <Button
+            title={i18n.t("global.login") + " O365"}
+            loading={loadingO365}
+            onPress={onLoginPressO365}
+          />
           <ForgotPasswordLink />
-          <LanguagePicker />
+          {/* <LanguagePicker /> */}
+
+          <View style={{ marginVertical: 15 }}>
+            <Text>
+              NOTE- Contact admin at admin@myarrow.app if your account is
+              locked.
+            </Text>
+          </View>
           <AppVersion />
         </View>
       </ScrollView>

@@ -5,8 +5,9 @@ export const localStyles = ({ theme, isRTL, isIOS }) => ({
     backgroundColor: isNew ? theme.surface.secondary : theme.surface.primary,
     borderBottomWidth: 1,
     borderBottomColor: theme.background.primary,
-    paddingTop: 10,
+    // paddingTop: 10,
     height: Constants.LIST_ITEM_HEIGHT,
+    alignItems: "center",
   }),
   notificationDetails: {
     flexWrap: "wrap",

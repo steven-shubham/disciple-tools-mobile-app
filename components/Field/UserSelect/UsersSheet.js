@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, Pressable, Text, View } from "react-native";
+import { Image, Pressable, Text, View, Keyboard } from "react-native";
 
 import { MaterialCommunityIcon, CheckIcon } from "components/Icon";
 import FilterList from "components/FilterList";
@@ -18,6 +18,7 @@ const UsersSheet = ({ id, values, onChange, sharedIDs, modalName }) => {
   const { dismiss } = useBottomSheetModal();
 
   const { search, onSearch } = useFilter();
+  Keyboard.dismiss();
 
   // exclude currently selected values from options list
   let exclude = [];

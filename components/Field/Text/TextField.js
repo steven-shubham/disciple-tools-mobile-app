@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Keyboard, Text, TextInput, View } from "react-native";
 
 import { CancelIcon, SaveIcon } from "components/Icon";
+import Slider from "components/Slider";
 
 import useAPI from "hooks/use-api";
 import useCache from "hooks/use-cache";
@@ -50,10 +51,9 @@ const TextFieldEdit = ({
 
   const { cache, mutate } = useCache();
   const { updatePost } = useAPI();
-
-  const isSliderField = field?.name === FieldNames.INFLUENCE;
-
-  const mappedValue = mapFromAPI({ value });
+  // const isSliderField = field?.name === FieldNames.INFLUENCE;
+  const isSliderField = field?.name === "Influence";
+  const mappedValue = isSliderField ? value : mapFromAPI({ value });
   const [_value, _setValue] = useState(mappedValue);
 
   // TODO: use env var for debounce time?
@@ -79,7 +79,13 @@ const TextFieldEdit = ({
     _setValue(debouncedValue);
     // in-memory cache (and persisted storage) state
     const cachedData = cache.get(cacheKey);
-    cachedData[fieldKey] = debouncedValue;
+    if (isSliderField) {
+      cachedData[fieldKey] = debouncedValue[fieldKey];
+      cachedData[FieldNames.INFLUENCE_SLIDER] =
+        debouncedValue[FieldNames.INFLUENCE_SLIDER];
+    } else {
+      cachedData[fieldKey] = debouncedValue;
+    }
     if (fieldKey === FieldNames.NAME) {
       // in order to update the header value, also set the "title" field
       cachedData[FieldNames.TITLE] = debouncedValue;
@@ -101,9 +107,23 @@ const TextFieldEdit = ({
       }
     }
     // revalidate=true here so that the title bar will update immediately
-    mutate(cacheKey, () => cachedData, { revalidate: true });
+    mutate(cacheKey, () => cachedData, {
+      revalidate: isSliderField ? false : true,
+    });
     // remote API state
-    const data = mapToAPI({ fieldKey, newValue: debouncedValue });
+    let data;
+    if (isSliderField) {
+      data = mapToAPI({ fieldKey, newValue: debouncedValue[fieldKey] });
+      data = {
+        ...data,
+        ...mapToAPI({
+          fieldKey: FieldNames.INFLUENCE_SLIDER,
+          newValue: debouncedValue[FieldNames.INFLUENCE_SLIDER],
+        }),
+      };
+    } else {
+      data = mapToAPI({ fieldKey, newValue: debouncedValue });
+    }
     await updatePost({ data });
     setShowSave(false);
     Keyboard.dismiss();
@@ -129,10 +149,18 @@ const TextFieldEdit = ({
   if (isSliderField) {
     return <Slider value={_value} onValueChange={_setValue} />;
   }
+
+  // console.log("--fieldKey-- ", fieldKey, "  ", typeof defaultValue);
+
   return (
     <View style={styles.container}>
       <View style={globalStyles.rowContainer}>
         <TextInput
+          // defaultValue={
+          //   typeof defaultValue === "number"
+          //     ? String(defaultValue)
+          //     : defaultValue
+          // }
           defaultValue={defaultValue}
           value={onChange ? null : _value}
           onChangeText={_setValue}

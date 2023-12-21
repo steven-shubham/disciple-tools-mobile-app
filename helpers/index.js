@@ -94,7 +94,17 @@ export const filterPosts = ({ posts, query }) => {
   // eg, {"assigned_to":["me"],"subassigned":["me"],"combine":["subassigned"],"overall_status":["-closed"],"type":["access"],"sort":"overall_status"};
   // TODO: do this dynamically?
   const meList = ["subassigned", "coached_by", "shared_with"];
-  if (query?.fields) query = query.fields;
+
+  if (query?.fields) {
+    query = query.fields;
+    if (Array.isArray(query)) {
+      // console.log("-- --", { ...query });
+      // CONVERT INTO OBJECT
+      query = { ...query?.["0"] } ?? query;
+    }
+    // console.log("--query--", query);
+    // console.log("--Array.isArray(query)--", Array.isArray(query));
+  }
   return posts?.filter((post) => {
     let queryKeys = Object.keys(query);
     queryKeys = queryKeys.filter((key) => key !== "sort" && key !== "combine");

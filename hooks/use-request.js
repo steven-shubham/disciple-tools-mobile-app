@@ -12,6 +12,8 @@ const useRequest = ({ request }) => {
   //const cacheKey = getCacheKeyByRequest(request);
   const cacheKey = request?.url;
 
+  // console.log("--useRequest cacheKey--", cacheKey);
+
   // revalidate only if online (or network is at least initializing)
   const fetcher =
     isConnected || isInitializing ? defaultFetcher(request) : null;

@@ -57,13 +57,13 @@ export const LogoHeader = ({ props }) => {
   return (
     <View style={globalStyles.rowContainer}>
       <Image
-        defaultSource={require("assets/dt-icon.png")}
-        source={require("assets/dt-icon.png")}
+        defaultSource={require("assets/arw-icon.png")}
+        source={require("assets/arw-icon.png")}
         resizeMethod="scale"
         resizeMode="cover"
         style={styles.logo}
       />
-      <Text style={styles.brandText}>D.T</Text>
+      <Text style={styles.brandText}>Arrow</Text>
     </View>
   );
 };

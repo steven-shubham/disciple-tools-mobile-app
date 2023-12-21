@@ -24,7 +24,16 @@ const ClearFilters = ({ filter, defaultFilter, onFilter }) => {
   );
 };
 
-const FilterOption = ({ idx, filters, filter, selectedFilter, onFilter }) => {
+const FilterOption = ({
+  idx,
+  filters,
+  filter,
+  selectedFilter,
+  onFilter,
+  postId,
+}) => {
+  // console.log("--FilterOption postId--", postId);
+
   const { styles } = useStyle(localStyles);
   const { i18n } = useI18N();
   // highlight the selected filter
@@ -62,13 +71,20 @@ const FilterOption = ({ idx, filters, filter, selectedFilter, onFilter }) => {
           selectedFilter={selectedFilter}
           onFilter={onFilter}
           modalName={modalName}
+          postId={postId}
         />
       </ModalSheet>
     </>
   );
 };
 
-const FilterOptions = ({ defaultFilter, filters, filter, onFilter }) => {
+const FilterOptions = ({
+  defaultFilter,
+  filters,
+  filter,
+  onFilter,
+  postId,
+}) => {
   const { styles, globalStyles } = useStyle(localStyles);
 
   /*
@@ -98,6 +114,7 @@ const FilterOptions = ({ defaultFilter, filters, filter, onFilter }) => {
             filter={_filter}
             selectedFilter={filter}
             onFilter={onFilter}
+            postId={postId}
           />
         ))}
     </View>

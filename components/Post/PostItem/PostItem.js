@@ -64,7 +64,7 @@ const PostTitle = ({ title, name, styles, globalStyles }) => {
   if (!title && !name) return null;
   return (
     <Text style={[globalStyles.text, styles.title]}>
-      {titleize(name ?? title)}
+      {truncate(titleize(name ?? title))}
     </Text>
   );
 };

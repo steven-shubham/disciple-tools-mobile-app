@@ -25,12 +25,16 @@ import useI18N from "hooks/use-i18n";
 import useNotifications from "hooks/use-notifications";
 import useStyles from "hooks/use-styles";
 import useType from "hooks/use-type";
+import useMyUser from "hooks/use-my-user";
 
 import { NotificationActionConstants, ScreenConstants } from "constants";
 
 import { parseDateShort, truncate } from "utils";
 
 import { localStyles } from "./NotificationsScreen.styles";
+import { ARROW_DEFINITIONS } from "constants";
+import { TouchableOpacity } from "react-native";
+import { REGISTERED } from "constants";
 
 const NotificationsScreen = ({ navigation }) => {
   // TODO: constant
@@ -46,6 +50,11 @@ const NotificationsScreen = ({ navigation }) => {
   const [limit, setLimit] = useState(DEFAULT_LIMIT);
 
   const { defaultFilter, filter, onFilter, search, onSearch } = useFilter();
+  const { data: userData } = useMyUser();
+
+  let role = Object.values(userData?.profile?.roles ?? {})?.[0] ?? "";
+
+  // console.log("--filter--", filter);
 
   const {
     data: notifications,
@@ -78,16 +87,22 @@ const NotificationsScreen = ({ navigation }) => {
         label: i18n.t("global.documentation"),
         url: "https://disciple.tools/user-docs/disciple-tools-mobile-app/how-to-use/notifications-screen/",
       },
+      {
+        label: ARROW_DEFINITIONS,
+        showArrowDefinitions: true,
+      },
     ];
     navigation.setOptions({
       title: i18n.t("global.notifications"),
       headerRight: (props) => {
         return (
           <View style={globalStyles.rowContainer}>
-            <ReadAllIcon
-              style={styles.readAllIcon(hasNotifications)}
-              onPress={() => _markAllViewed()}
-            />
+            <TouchableOpacity onPress={() => _markAllViewed()}>
+              <ReadAllIcon
+                style={styles.readAllIcon(hasNotifications)}
+                // onPress={() => _markAllViewed()}
+              />
+            </TouchableOpacity>
             <HeaderRight kebabItems={kebabItems} props />
           </View>
         );
@@ -96,12 +111,18 @@ const NotificationsScreen = ({ navigation }) => {
   });
 
   const _markAllViewed = () => {
+    if (role === REGISTERED) {
+      return;
+    }
+    // console.log("--_markAllViewed--");
     vibrate();
+    // return;
     let newItems = items.map((item) => ({ ...item, is_new: "0" }));
     // TODO: why delay?
     setTimeout(() => {
       mutate();
     }, 1000);
+    // mutate();
     // component state
     setItems(newItems);
     // TODO
@@ -112,15 +133,20 @@ const NotificationsScreen = ({ navigation }) => {
 
   const NotificationItem = ({ item, loading, mutate }) => {
     const [isNew, setIsNew] = useState(item?.is_new === "1" ? true : false);
+    // Roger modified contact details on <a href="https://arrowappstage.wpengine.com/contacts/121">Parah Contact700zz</a>.
 
     if (!item || loading) return <PostItemSkeleton />;
     const str1 = item?.notification_note?.search("<");
     const str2 = item?.notification_note?.search(">");
     const str3 = item?.notification_note?.length - 4;
     const newNotificationNoteA = item?.notification_note?.substr(0, str1);
+    // console.log("--item?.notification_note--", item?.notification_note);
+    // console.log("--newNotificationNoteA--", newNotificationNoteA);
     const newNotificationNoteB = item?.notification_note?.substr(str2, str3);
+    // console.log("--newNotificationNoteB--", newNotificationNoteB);
     const str4 = newNotificationNoteB?.search("<") - 1;
     const newNotificationNoteC = newNotificationNoteB?.substr(1, str4);
+    // console.log("--newNotificationNoteC--", newNotificationNoteC);
     let entityLink = item?.notification_note?.substring(
       item?.notification_note?.lastIndexOf('href="') + 6,
       item?.notification_note?.lastIndexOf('">')
@@ -287,6 +313,7 @@ const NotificationsScreen = ({ navigation }) => {
         onRefresh={mutate}
         //leftOpenValue={Constants.SWIPE_BTN_WIDTH * Constants.NUM_SWIPE_BUTTONS_LEFT}
         //rightOpenValue={Constants.SWIPE_BTN_WIDTH * Constants.NUM_SWIPE_BUTTONS_RIGHT}
+        role={role}
       />
     </View>
   );

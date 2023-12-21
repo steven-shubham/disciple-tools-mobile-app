@@ -1,9 +1,18 @@
 import React from "react";
-import { Image, ImageBackground, Switch, Text, View } from "react-native";
+import {
+  Image,
+  ImageBackground,
+  Switch,
+  Text,
+  View,
+  Pressable,
+} from "react-native";
 import { SvgUri } from "react-native-svg";
 
 import ListItem from "components/ListItem";
+import SheetHeader from "components/Sheet/SheetHeader";
 
+import useBottomSheet from "hooks/use-bottom-sheet";
 import useI18N from "hooks/use-i18n";
 import useStyles from "hooks/use-styles";
 import useSettings from "hooks/use-settings";
@@ -31,12 +40,14 @@ const ChurchCommitment = ({
     <ListItem
       label={i18n.t("global.churchCommitment")}
       endComponent={
-        <Switch
-          trackColor={{ true: styles.switch.color }}
-          thumbColor={styles.switch}
-          value={hasChurchCommitment}
-          onChange={toggleChurchCommitment}
-        />
+        <View style={styles.churchCommitmentSwitch}>
+          <Switch
+            trackColor={{ true: styles.switch.color }}
+            thumbColor={styles.switch}
+            value={hasChurchCommitment}
+            onChange={toggleChurchCommitment}
+          />
+        </View>
       }
       style={styles.listItem}
     />
@@ -44,9 +55,29 @@ const ChurchCommitment = ({
 };
 
 const ChurchHealth = ({ post, selectedItems, onChange }) => {
-  const { styles } = useStyles(localStyles);
+  const { styles, globalStyles } = useStyles(localStyles);
 
   const { settings } = useSettings();
+  const { expand, collapse } = useBottomSheet();
+
+  const showSheet = (iconDescription = "") => {
+    expand({
+      renderHeader: () => (
+        <SheetHeader
+          expandable
+          dismissable
+          title="Church Health"
+          onDismiss={collapse}
+        />
+      ),
+      renderFooter: () => null,
+      renderContent: () => (
+        <View style={{ marginHorizontal: 10 }}>
+          <Text style={globalStyles.text}>{iconDescription}</Text>
+        </View>
+      ),
+    });
+  };
 
   const toggleChurchCommitment = () =>
     onChange({ key: ChurchHealthConstants.CHURCH_COMMITMENT });
@@ -71,10 +102,15 @@ const ChurchHealth = ({ post, selectedItems, onChange }) => {
 
     // MAKING AN ARRAY OF OBJECTS FROM AN OBJECT OF OBJECTS
     for (let [key, value] of Object.entries(iconsData || {})) {
-      iconsDataArray.push({ key, value });
+      if (
+        key !== ChurchHealthConstants.CHURCH_COMMITMENT &&
+        value.icon !== ""
+      ) {
+        iconsDataArray.push({ key, value });
+      }
     }
 
-    let totalIcons = iconsDataArray.length - 1;
+    let totalIcons = iconsDataArray.length;
     let svgIconsArray = [];
     let angle = 0;
     let increaseAngle = Math.floor(360 / totalIcons);
@@ -86,17 +122,23 @@ const ChurchHealth = ({ post, selectedItems, onChange }) => {
       let selected = isSelected({ key: iconsDataArray[i].key });
 
       let tempComp = (
-        <SvgUri
-          width={40}
-          height={40}
-          left={x + 25}
-          top={y + 25}
-          position="absolute"
-          style={styles.iconImage(selected)}
-          uri={iconsDataArray[i].value.icon}
+        <Pressable
+          onLongPress={() => showSheet(iconsDataArray[i].value.description)}
+          style={{
+            left: x + 25,
+            top: y + 25,
+            position: "absolute",
+          }}
           onPress={() => onChange(iconsDataArray[i])}
           key={iconsDataArray[i].value.description}
-        />
+        >
+          <SvgUri
+            width={40}
+            height={40}
+            style={styles.iconImage(selected)}
+            uri={iconsDataArray[i].value.icon}
+          />
+        </Pressable>
       );
       svgIconsArray.push(tempComp);
       angle += increaseAngle;
@@ -104,6 +146,14 @@ const ChurchHealth = ({ post, selectedItems, onChange }) => {
     return svgIconsArray;
   };
 
+  let baptizedCount = 0;
+
+  if (post?.baptized_count) {
+    // New field
+    baptizedCount = post.baptized_count;
+  } else if (post?.baptized_member_count) {
+    baptizedCount = post.baptized_member_count;
+  }
   return (
     <>
       <View style={styles.container}>
@@ -125,26 +175,27 @@ const ChurchHealth = ({ post, selectedItems, onChange }) => {
           </View>
         </View>
 
-        <View style={styles.baptismContainer}>
-          <Text>
-            {post?.member_count && post?.baptized_member_count
-              ? post.member_count - post.baptized_member_count
-              : 0}
-          </Text>
-          <Image
-            resizeMode="contain"
-            source={baptizeIconChurchHealth}
-            style={styles.baptizeIconChurchHealth}
-          />
-          <Text>{post?.baptized_member_count ?? ""}</Text>
+        <View style={styles.baptismMainContainer}>
+          <View style={styles.baptismContainer}>
+            <Text>
+              {post?.member_count ? post.member_count - baptizedCount : 0}
+            </Text>
+            <Image
+              resizeMode="contain"
+              source={baptizeIconChurchHealth}
+              style={styles.baptizeIconChurchHealth}
+            />
+            <Text>{baptizedCount ?? ""}</Text>
+          </View>
+
+          <View style={{ padding: 5 }}>
+            <ChurchCommitment
+              hasChurchCommitment={hasChurchCommitment}
+              toggleChurchCommitment={toggleChurchCommitment}
+              styles={styles}
+            />
+          </View>
         </View>
-      </View>
-      <View style={{ padding: 5 }}>
-        <ChurchCommitment
-          hasChurchCommitment={hasChurchCommitment}
-          toggleChurchCommitment={toggleChurchCommitment}
-          styles={styles}
-        />
       </View>
     </>
   );

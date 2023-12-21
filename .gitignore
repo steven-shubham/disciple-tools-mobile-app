@@ -25,6 +25,9 @@ DerivedData
 *.xcuserstate
 project.xcworkspace
 
+# dotenv environment variables file
+.env
+
 # Android/IntelliJ
 #
 build/
@@ -56,10 +59,12 @@ buck-out/
 .expo/
 web-build/
 dist/
-credentials*
 
 # @end expo-cli
-
+*.jks
 *.bak
 NOTES
 zz
+
+certs
+credentials.json

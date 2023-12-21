@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { Text, View } from "react-native";
+import { Text, View, Alert } from "react-native";
 
 import { SquareIcon } from "components/Icon";
 import Select from "components/Select";
@@ -36,23 +36,65 @@ const KeySelectFieldEdit = ({
 
   // TODO: TS type "newValue"
   const _onChange = async (newValue) => {
+    modalRef.current?.dismiss();
+    // console.log("--value, newValue--", value, "  ", newValue);
     if (newValue?.key !== value?.key) {
-      modalRef.current?.dismiss();
-      // component state
-      setValue(newValue);
-      const data = mapToAPI({ fieldKey, newValue });
-      // grouped/form state (if applicable)
-      if (onChange) {
-        onChange({ key: fieldKey, value: { key: data?.[fieldKey] } });
-        return;
+      if (newValue?.key === "body_of_christ_group") {
+        Alert.alert(
+          "",
+          'You are marking this group as a "Local Body of Christ" - that\'s great! Can you please confirm that this group is engaged in Bible study?',
+          [
+            {
+              text: "Yes",
+              onPress: async () => {
+                modalRef.current?.dismiss();
+                // component state
+                setValue(newValue);
+                const data = mapToAPI({ fieldKey, newValue });
+                // grouped/form state (if applicable)
+                if (onChange) {
+                  onChange({ key: fieldKey, value: { key: data?.[fieldKey] } });
+                  return;
+                }
+                // in-memory cache (and persisted storage) state
+                // TODO: use cache, mutate directly
+                setCacheByKey({ cacheKey, fieldKey, newValue });
+                // remote API state
+                await updatePost({ data });
+                // force mutate (to display/hide status reason)
+                mutate();
+              },
+            },
+            {
+              //Revert to prev value
+              text: "No",
+              onPress: () => {
+                modalRef.current?.dismiss();
+              },
+            },
+          ],
+          {
+            cancelable: false,
+          }
+        );
+      } else {
+        modalRef.current?.dismiss();
+        // component state
+        setValue(newValue);
+        const data = mapToAPI({ fieldKey, newValue });
+        // grouped/form state (if applicable)
+        if (onChange) {
+          onChange({ key: fieldKey, value: { key: data?.[fieldKey] } });
+          return;
+        }
+        // in-memory cache (and persisted storage) state
+        // TODO: use cache, mutate directly
+        setCacheByKey({ cacheKey, fieldKey, newValue });
+        // remote API state
+        await updatePost({ data });
+        // force mutate (to display/hide status reason)
+        mutate();
       }
-      // in-memory cache (and persisted storage) state
-      // TODO: use cache, mutate directly
-      setCacheByKey({ cacheKey, fieldKey, newValue });
-      // remote API state
-      await updatePost({ data });
-      // force mutate (to display/hide status reason)
-      mutate();
     }
     return;
   };

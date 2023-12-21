@@ -383,7 +383,11 @@ export const ErrorConstants = Object.freeze({
   LOGIN_CREDENTIALS: "Invalid username or password",
 });
 
-export const APP_VERSION = Constants.manifest.version;
+export const APP_VERSION = Constants.expoConfig.version;
+export const ARROW_DEFINITIONS = "Arrow Definitions";
+export const QUESTIONNAIRE = "questionnaire";
+export const REFLECTION = "Reflection";
+export const REGISTERED = "Registered";
 
 export default {
   STATUS_CIRCLE_SIZE: 15,

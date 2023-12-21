@@ -67,7 +67,7 @@ const ValidateOtpScreen = (props) => {
     return (
       <View style={styles.header}>
         <Image
-          source={require("assets/dt-icon.png")}
+          source={require("assets/arw-icon.png")}
           style={styles.welcomeImage}
         />
       </View>

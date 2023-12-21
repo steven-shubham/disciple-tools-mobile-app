@@ -155,7 +155,7 @@ const PINScreen = ({ navigation, route }) => {
 
   return (
     <View style={styles.container}>
-      <Image source={require("assets/dt-icon.png")} style={styles.logo} />
+      <Image source={require("assets/arw-icon.png")} style={styles.logo} />
       <DisplayText />
       <View style={styles.iconContainer}>
         <LockIcon style={styles.icon} />
